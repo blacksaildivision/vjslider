@@ -1,0 +1,24 @@
+.vjslider {
+    width: 100%;
+    overflow: hidden;
+}
+
+.vjslider__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.vjslider__container--animate {
+    transition: all .3s;
+}
+
+.vjslider__slide {
+    width: 100%;
+}
+
+.vjslider__slide img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+}
