@@ -33,6 +33,9 @@
 <script src="../dist/vjslider.js"></script>
 <script>
     window.slider = new VJSlider(document.querySelector('.vjslider'));
+    setInterval(function () {
+        window.slider.next();
+    }, 2000)
 </script>
 </body>
 </html>
