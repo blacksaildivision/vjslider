@@ -15,24 +15,27 @@ class VJSlider { // eslint-disable-line no-unused-vars
         this.slide(2);
     }
 
+    /**
+     * Create necessary HTML elements around slider
+     * Add necessary CSS classes to all elements
+     */
     build() {
-        //Prepare slider wrapper
-        let sliderWrapper = document.createElement('div');
+        // Prepare slider wrapper
+        const parentElement = this.sliderElement.parentNode,
+            sliderWrapper = document.createElement('div');
         sliderWrapper.className = 'vjslider';
 
-        //Insert whole carousel into the wrapper
-        let parentElement = this.sliderElement.parentNode;
+        // Insert whole carousel into the wrapper
         parentElement.replaceChild(sliderWrapper, this.sliderElement);
         sliderWrapper.appendChild(this.sliderElement);
 
-        //Add slider class to moving element
+        // Add slider class to moving element
         this.sliderElement.classList.add('vjslider__slider');
 
-        //Add slide class to each slide
+        // Add slide class to each slide
         this.slides.forEach((slide) => {
             slide.classList.add('vjslider__slide');
         });
-
     }
 
     _createCarouselPadding() {
@@ -55,13 +58,13 @@ class VJSlider { // eslint-disable-line no-unused-vars
     slide(index) {
         this.currentSlide = index;
         this.sliderElement.classList.add('vjslider__slider--animate');
-        this.sliderElement.style.transform = 'translate3d(-' + (100 * index / (this.slides.length+4)) + '%, 0, 0)';
+        this.sliderElement.style.transform = 'translate3d(-' + (100 * index / (this.slides.length + 4)) + '%, 0, 0)';
         var self = this;
         if (index > this.slidesCount) {
             setTimeout(function () {
                 self.sliderElement.style.transition = 'all 0s';
                 self.sliderElement.classList.remove('vjslider__slider--animate');
-                self.sliderElement.style.transform = 'translate3d(-' + (100 / (self.slides.length+4) ) + '%, 0, 0)';
+                self.sliderElement.style.transform = 'translate3d(-' + (100 / (self.slides.length + 4) ) + '%, 0, 0)';
                 self.currentSlide = 1;
             }, 300);
         } else {
@@ -69,7 +72,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
                 setTimeout(function () {
                     self.sliderElement.style.transition = 'all 0s';
                     self.sliderElement.classList.remove('vjslider__slider--animate');
-                    self.sliderElement.style.transform = 'translate3d(-' + (100 * (self.slidesCount) / (self.slides.length+4) ) + '%, 0, 0)';
+                    self.sliderElement.style.transform = 'translate3d(-' + (100 * (self.slidesCount) / (self.slides.length + 4) ) + '%, 0, 0)';
                     self.currentSlide = self.slidesCount;
                 }, 300);
             }
