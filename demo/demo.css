@@ -61,28 +61,28 @@ main {
     padding: 5rem;
 }
 
-.slide {
+.carousel__slide {
     padding: 10rem;
     color: #fff;
     text-align: center;
 }
 
-.slide--blue {
+.carousel__slide--blue {
     background-color: #9abdf9;
 }
 
-.slide--purple {
+.carousel__slide--purple {
     background-color: #8545de;
 }
 
-.slide--orange {
+.carousel__slide--orange {
     background-color: #d5500a;
 }
 
-.slide--green {
+.carousel__slide--green {
     background-color: #76ab08;
 }
 
-.slide--pink {
+.carousel__slide--pink {
     background-color: #e77aad;
 }

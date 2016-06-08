@@ -3,22 +3,16 @@
     overflow: hidden;
 }
 
-.vjslider__container {
+.vjslider__slider {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
 }
 
-.vjslider__container--animate {
+.vjslider__slider--animate {
     transition: all .3s;
 }
 
 .vjslider__slide {
     width: 100%;
-}
-
-.vjslider__slide img {
-    max-width: 100%;
-    width: 100%;
-    height: auto;
 }
