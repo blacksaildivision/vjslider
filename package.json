@@ -1,0 +1,26 @@
+{
+  "name": "vjslider",
+  "version": "1.0.0",
+  "description": "Super small and responsive vanilla js slider",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blacksaildivision/vjslider.git"
+  },
+  "keywords": [
+    "slider",
+    "js",
+    "carousel",
+    "vjslider",
+    "responsive"
+  ],
+  "author": "Black Sail Division",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/blacksaildivision/vjslider/issues"
+  },
+  "homepage": "https://github.com/blacksaildivision/vjslider#readme"
+}
