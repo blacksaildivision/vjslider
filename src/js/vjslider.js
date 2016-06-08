@@ -1,18 +1,19 @@
-var VJSlider = function (sliderElement) {
-    this.sliderElement = sliderElement.children[0];
-    this.slides = this.sliderElement.children;
-    this.slidesCount = this.slides.length;
-    this.currentSlide = 0;
-    this.init();
-};
+class VJSlider { // eslint-disable-line no-unused-vars
+    constructor(sliderElement) {
+        this.sliderElement = sliderElement.children[0];
+        this.slides = this.sliderElement.children;
+        this.slidesCount = this.slides.length;
+        this.currentSlide = 0;
+        this.init();
+    }
 
-VJSlider.prototype = {
-    init: function () {
+    init() {
         this._createCarouselPadding();
         this.sliderElement.style.width = this.slides.length * 100 + '%';
         this.slide(2);
-    },
-    _createCarouselPadding: function () {
+    }
+
+    _createCarouselPadding() {
         var firstTwoElements = Array.prototype.slice.call(this.slides, 0, 2),
             lastTwoElements = Array.prototype.slice.call(this.slides, -2),
             self = this;
@@ -27,8 +28,9 @@ VJSlider.prototype = {
             clone.classList.add('clone');
             self.sliderElement.insertBefore(clone, self.sliderElement.firstChild);
         });
-    },
-    slide: function (index) {
+    }
+
+    slide(index) {
         this.currentSlide = index;
         this.sliderElement.classList.add('vjslider__container--animate');
         this.sliderElement.style.transform = 'translate3d(-' + (100 * index / (this.slides.length)) + '%, 0, 0)';
@@ -42,7 +44,6 @@ VJSlider.prototype = {
             }, 300);
         } else {
             if (index <= 0) {
-                console.log('mniejsza');
                 setTimeout(function () {
                     self.sliderElement.style.transition = 'all 0s';
                     self.sliderElement.classList.remove('vjslider__container--animate');
@@ -51,14 +52,15 @@ VJSlider.prototype = {
                 }, 300);
             }
         }
-    },
-    next: function () {
+    }
+
+    next() {
         this.sliderElement.style.transition = 'all 0.3s';
         this.slide(this.currentSlide + 1);
+    }
 
-    },
-    prev: function () {
+    prev() {
         this.sliderElement.style.transition = 'all 0.3s';
         this.slide(this.currentSlide - 1);
     }
-};
+}
