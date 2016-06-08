@@ -23,34 +23,66 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+
 body {
     line-height: 1;
 }
+
 ol, ul {
     list-style: none;
 }
+
 blockquote, q {
     quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
     content: '';
     content: none;
 }
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
 }
 
-body{
+body {
     font-family: Helvetica, Arial, Verdana, sans-serif;
 }
 
 main {
     padding: 5rem;
+}
+
+.slide {
+    padding: 10rem;
+    color: #fff;
+    text-align: center;
+}
+
+.slide--blue {
+    background-color: #9abdf9;
+}
+
+.slide--purple {
+    background-color: #8545de;
+}
+
+.slide--orange {
+    background-color: #d5500a;
+}
+
+.slide--green {
+    background-color: #76ab08;
+}
+
+.slide--pink {
+    background-color: #e77aad;
 }
