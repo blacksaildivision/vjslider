@@ -9,8 +9,8 @@ class VJSlider { // eslint-disable-line no-unused-vars
 
 
     init() {
-        this.build();
-        this._createCarouselPadding();
+        this._build();
+        this._createSlideClones(2);
         this.sliderElement.style.width = (this.slides.length + 4) * 100 + '%';
         this.slide(2);
     }
@@ -18,8 +18,10 @@ class VJSlider { // eslint-disable-line no-unused-vars
     /**
      * Create necessary HTML elements around slider
      * Add necessary CSS classes to all elements
+     * @return {undefined}
+     * @private
      */
-    build() {
+    _build() {
         // Prepare slider wrapper
         const parentElement = this.sliderElement.parentNode,
             sliderWrapper = document.createElement('div');
@@ -38,21 +40,52 @@ class VJSlider { // eslint-disable-line no-unused-vars
         });
     }
 
-    _createCarouselPadding() {
-        var firstTwoElements = Array.prototype.slice.call(this.slides, 0, 2),
-            lastTwoElements = Array.prototype.slice.call(this.slides, -2),
-            self = this;
-        firstTwoElements.forEach(function (el) {
-            var clone = el.cloneNode(true);
-            clone.classList.add('clone');
-            self.sliderElement.appendChild(clone);
+    /**
+     * Create clones of slides required for infinite animation
+     * @param {int} numberOfClones Number of clones to create at the beginning and at the end of the slides.
+     * So total number of clones is numberOfClones * 2
+     * @return {undefined}
+     * @private
+     */
+    _createSlideClones(numberOfClones) {
+        // Get first and last n elements
+        let firstElements = this.slides.slice(0, numberOfClones),
+            lastElements = this.slides.slice(-1 * numberOfClones);
+        // Make sure that arrays with elements contains exact number of clones.
+        // For instances if numberOfClones = 2 but this.slides.length = 1
+        firstElements = this._fillMissing(firstElements, this.slides[0], numberOfClones);
+        lastElements = this._fillMissing(lastElements, this.slides[this.slides.length - 1], numberOfClones);
+
+        // Prepend clones at the beginning of slider
+        firstElements.forEach((el) => {
+            const clone = el.cloneNode(true);
+            clone.classList.add('vjslider__clone');
+            this.sliderElement.appendChild(clone);
         });
 
-        lastTwoElements.reverse().forEach(function (el) {
-            var clone = el.cloneNode(true);
-            clone.classList.add('clone');
-            self.sliderElement.insertBefore(clone, self.sliderElement.firstChild);
+        // Append clones at the end of the slider
+        lastElements.reverse().forEach((el) => {
+            const clone = el.cloneNode(true);
+            clone.classList.add('vjslider__clone');
+            this.sliderElement.insertBefore(clone, this.sliderElement.firstChild);
         });
+    }
+
+    /**
+     * Fill array to given length with given element
+     * This is helper function for the clones.
+     * @param {Array} arr Array to fill
+     * @param {int} filledArrayLength Number of elements that arr should contain
+     * @param {*} fillElement Value pushed to array if there are missing elements
+     * @returns {Array} Array with length = filledArrayLength
+     * @private
+     */
+    _fillMissing(arr, filledArrayLength, fillElement) {
+        while (arr.length < filledArrayLength) {
+            arr.push(fillElement);
+        }
+
+        return arr;
     }
 
     slide(index) {
