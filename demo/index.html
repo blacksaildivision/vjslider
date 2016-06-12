@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>vjslider demo</title>
+    <link href="demo.css" rel="stylesheet">
+    <link href="../dist/vjslider.css" rel="stylesheet">
+</head>
+<body>
+<main>
+    <h1>This is slider demo</h1>
+    <hr>
+    <div class="carousel">
+        <div class="carousel__slide carousel__slide--blue">
+            <p>Slide 1</p>
+        </div>
+        <div class="carousel__slide carousel__slide--purple">
+            <p>Slide 2</p>
+        </div>
+        <div class="carousel__slide carousel__slide--orange">
+            <p>Slide 3</p>
+        </div>
+        <div class="carousel__slide carousel__slide--green">
+            <p>Slide 4</p>
+        </div>
+        <div class="carousel__slide carousel__slide--pink">
+            <p>Slide 5</p>
+        </div>
+    </div>
+</main>
+<script src="../dist/vjslider.js"></script>
+<script>
+    window.slider = new VJSlider(document.querySelector('.carousel'));
+    setInterval(function () {
+        window.slider.next();
+    }, 2000)
+</script>
+</body>
+</html>
