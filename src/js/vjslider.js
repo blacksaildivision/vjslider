@@ -3,6 +3,9 @@ class VJSlider { // eslint-disable-line no-unused-vars
         this.sliderElement = sliderElement;
         this.slides = Array.prototype.slice.call(this.sliderElement.children);
         this.slidesCount = this.slides.length;
+        if (this.slidesCount === 0) {
+            throw new DOMException('Slider does not contain any children (slides)');
+        }
         this.currentSlide = 0;
         this.init();
     }
@@ -53,8 +56,8 @@ class VJSlider { // eslint-disable-line no-unused-vars
             lastElements = this.slides.slice(-1 * numberOfClones);
         // Make sure that arrays with elements contains exact number of clones.
         // For instances if numberOfClones = 2 but this.slides.length = 1
-        firstElements = this._fillMissing(firstElements, this.slides[0], numberOfClones);
-        lastElements = this._fillMissing(lastElements, this.slides[this.slides.length - 1], numberOfClones);
+        firstElements = this._fillMissing(firstElements, numberOfClones, this.slides[0]);
+        lastElements = this._fillMissing(lastElements, numberOfClones, this.slides[this.slides.length - 1]);
 
         // Prepend clones at the beginning of slider
         firstElements.forEach((el) => {
