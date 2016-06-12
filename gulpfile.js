@@ -3,6 +3,7 @@ const babel = require('gulp-babel');
 const esLint = require('gulp-eslint');
 const uglify = require('gulp-uglify');
 const connect = require('gulp-connect');
+const casperJs = require('gulp-casperjs');
 
 
 gulp.task('connect', () => {
@@ -23,6 +24,11 @@ gulp.task('scripts', () => {
         .pipe(connect.reload());
 });
 
+gulp.task('casperjs', () => {
+   return gulp.src('test/*.js')
+        .pipe(casperJs());
+});
+
 gulp.task('lint', () => {
     return gulp.src('src/js/vjslider.js')
         .pipe(esLint())
@@ -30,7 +36,7 @@ gulp.task('lint', () => {
         .pipe(esLint.failAfterError());
 });
 
-gulp.task('test', ['lint']);
+gulp.task('test', ['lint', 'casperjs']);
 
 gulp.task('watch', ['connect', 'scripts'], () => {
     gulp.watch('src/js/vjslider.js', ['scripts']);
