@@ -2,6 +2,16 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const esLint = require('gulp-eslint');
 const uglify = require('gulp-uglify');
+const connect = require('gulp-connect');
+
+
+gulp.task('connect', () => {
+    connect.server({
+        port: 8363,
+        livereload: true
+    });
+});
+
 
 gulp.task('scripts', () => {
     return gulp.src('src/js/vjslider.js')
@@ -9,7 +19,8 @@ gulp.task('scripts', () => {
             presets: ['es2015']
         }))
         .pipe(uglify())
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist'))
+        .pipe(connect.reload());
 });
 
 gulp.task('lint', () => {
@@ -21,7 +32,7 @@ gulp.task('lint', () => {
 
 gulp.task('test', ['lint']);
 
-gulp.task('watch', ['scripts'], () => {
+gulp.task('watch', ['connect', 'scripts'], () => {
     gulp.watch('src/js/vjslider.js', ['scripts']);
 });
 
