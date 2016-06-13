@@ -1,18 +1,1 @@
-.vjslider {
-    width: 100%;
-    overflow: hidden;
-}
-
-.vjslider__slider {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-}
-
-.vjslider__slider--animate {
-    transition: all .3s;
-}
-
-.vjslider__slide {
-    width: 100%;
-}
+.vjslider,.vjslider__slide{width:100%}.vjslider{overflow:hidden}.vjslider__slider{display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;-ms-flex-wrap:nowrap;flex-wrap:nowrap;transition:none}.vjslider__slider--animate{transition:transform .3s}

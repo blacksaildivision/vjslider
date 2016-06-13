@@ -27,13 +27,25 @@
             <p>Slide 5</p>
         </div>
     </div>
+    <hr>
+    <nav>
+        <ul class="menu">
+            <li class="menu__element">
+                <a href="#" class="js-prev">Prev</a>
+            </li>
+            <li class="menu__element">
+                <a href="#" class="js-next">Next</a>
+            </li>
+            <li class="menu__element">
+                <a href="#" class="js-start-loop">Start loop</a>
+            </li>
+            <li class="menu__element">
+                <a href="#" class="js-stop-loop">Stop loop</a>
+            </li>
+        </ul>
+    </nav>
 </main>
 <script src="../dist/vjslider.js"></script>
-<script>
-    window.slider = new VJSlider(document.querySelector('.carousel'));
-    setInterval(function () {
-        window.slider.next();
-    }, 2000)
-</script>
+<script src="nav.js"></script>
 </body>
 </html>

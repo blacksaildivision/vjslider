@@ -1,0 +1,19 @@
+.vjslider {
+  width: 100%;
+  overflow: hidden;
+
+  &__slider {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    transition: none;
+
+    &--animate {
+      transition: transform .3s;
+    }
+  }
+
+  &__slide {
+    width: 100%;
+  }
+}
