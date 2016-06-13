@@ -7,10 +7,11 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    transition: none;
 }
 
 .vjslider__slider--animate {
-    transition: all .3s;
+    transition: transform .3s;
 }
 
 .vjslider__slide {
