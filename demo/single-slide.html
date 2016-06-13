@@ -15,13 +15,58 @@
             <p>Single slide</p>
         </div>
     </div>
+    <hr>
+    <nav>
+        <ul>
+            <li>
+                <a href="#" class="js-prev">Prev</a>
+            </li>
+            <li>
+                <a href="#" class="js-next">Next</a>
+            </li>
+            <li>
+                <a href="#" class="js-start-loop">Start loop</a>
+            </li>
+            <li>
+                <a href="#" class="js-stop-loop">Stop loop</a>
+            </li>
+        </ul>
+    </nav>
 </main>
 <script src="../dist/vjslider.js"></script>
 <script>
-    window.slider = new VJSlider(document.querySelector('.carousel'));
-    setInterval(function () {
-        window.slider.next();
-    }, 2000)
+    var slider = new VJSlider(document.querySelector('.carousel')),
+            loopStarted = false,
+            loop;
+
+    document.querySelector('.js-prev').addEventListener('click', function (event) {
+        event.preventDefault();
+        slider.prev();
+    });
+
+    document.querySelector('.js-next').addEventListener('click', function (event) {
+        event.preventDefault();
+        slider.next();
+    });
+
+    document.querySelector('.js-start-loop').addEventListener('click', function (event) {
+        event.preventDefault();
+        if (!loopStarted) {
+            slider.next();
+            loop = setInterval(function () {
+                slider.next();
+            }, 1000);
+            loopStarted = true;
+        }
+    });
+
+    document.querySelector('.js-stop-loop').addEventListener('click', function (event) {
+        event.preventDefault();
+        if (loopStarted) {
+            clearInterval(loop);
+            loopStarted = false;
+        }
+    });
 </script>
 </body>
 </html>
