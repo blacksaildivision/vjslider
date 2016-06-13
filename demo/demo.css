@@ -86,3 +86,13 @@ main {
 .carousel__slide--pink {
     background-color: #e77aad;
 }
+
+.menu {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.menu__element{
+    padding: 5px;
+}
