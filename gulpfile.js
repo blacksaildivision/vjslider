@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const babel = require('gulp-babel');
 const esLint = require('gulp-eslint');
 const uglify = require('gulp-uglify');
 const connect = require('gulp-connect');
@@ -19,9 +18,6 @@ gulp.task('connect', () => {
 
 gulp.task('scripts', () => {
     return gulp.src('src/js/vjslider.js')
-        .pipe(babel({
-            presets: ['es2015']
-        }))
         .pipe(uglify())
         .pipe(gulp.dest('dist'))
         .pipe(connect.reload());
@@ -52,8 +48,8 @@ gulp.task('lint', () => {
 
 gulp.task('test', ['lint', 'casperjs']);
 
-gulp.task('watch', ['connect', 'scripts'], () => {
-    gulp.watch('src/js/vjslider.js', ['scripts']);
+gulp.task('watch', ['connect'], () => {
+    gulp.watch('src/js/vjslider.js', []);
 });
 
 gulp.task('default', ['watch']);

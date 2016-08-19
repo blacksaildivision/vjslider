@@ -5,5 +5,10 @@ module.exports = {
         filename: 'vjslider.js',
         libraryTarget: 'var',
         library: 'VJSlider'
+    },
+    module: {
+        loaders: [
+            {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"}
+        ]
     }
 };
