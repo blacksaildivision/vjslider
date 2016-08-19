@@ -28,15 +28,15 @@
     "babel-core": "^6.13.2",
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.13.2",
-    "casperjs": "^1.1.1",
+    "casperjs": "^1.1.3",
     "eslint": "^3.3.1",
     "eslint-loader": "^1.5.0",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
+    "gulp-autoprefixer": "^3.1.1",
     "gulp-casperjs": "0.0.6",
-    "gulp-clean-css": "^2.0.10",
-    "gulp-connect": "^4.0.0",
-    "gulp-sass": "^2.3.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-connect": "^5.0.0",
+    "gulp-sass": "^2.3.2",
     "webpack": "^1.13.2"
   }
 }
