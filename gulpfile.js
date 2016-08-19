@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const esLint = require('gulp-eslint');
 const connect = require('gulp-connect');
 const casperJs = require('gulp-casperjs');
 const sass = require('gulp-sass');
@@ -31,14 +30,8 @@ gulp.task('casperjs', () => {
         .pipe(casperJs());
 });
 
-gulp.task('lint', () => {
-    return gulp.src('src/js/vjslider.js')
-        .pipe(esLint())
-        .pipe(esLint.format())
-        .pipe(esLint.failAfterError());
-});
 
-gulp.task('test', ['lint', 'casperjs']);
+gulp.task('test', ['casperjs']);
 
 gulp.task('watch', ['connect'], () => {
     gulp.watch('src/js/vjslider.js', []);
