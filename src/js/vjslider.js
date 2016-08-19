@@ -4,7 +4,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
         this.slides = Array.prototype.slice.call(this.sliderElement.children);
         this.slidesCount = this.slides.length;
         if (this.slidesCount === 0) {
-            throw new DOMException('Slider does not contain any children (slides)');
+            throw new DOMException("Slider does not contain any children (slides)");
         }
         this.currentSlide = 0;
         this.numberOfClones = 0;
@@ -19,7 +19,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
         this._build();
         this.numberOfClones = this._createSlideClones(2);
         this._transitionEnd();
-        this.sliderElement.style.width = (this.slides.length + this.numberOfClones * 2) * 100 + '%';
+        this.sliderElement.style.width = (this.slides.length + this.numberOfClones * 2) * 100 + "%";
         this.slide(1);
     }
 
@@ -33,7 +33,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
         this.currentSlide = index;
 
         // Add class that enables animations
-        this.sliderElement.classList.add('vjslider__slider--animate');
+        this.sliderElement.classList.add("vjslider__slider--animate");
 
         // Move slider position to show given slide
         this._moveTo(this.currentSlide);
@@ -85,18 +85,18 @@ class VJSlider { // eslint-disable-line no-unused-vars
     _build() {
         // Prepare slider wrapper
         const parentElement = this.sliderElement.parentNode,
-            sliderWrapper = document.createElement('div');
-        sliderWrapper.className = 'vjslider';
+            sliderWrapper = document.createElement("div");
+        sliderWrapper.className = "vjslider";
 
         // Insert whole carousel into the wrapper
         parentElement.replaceChild(sliderWrapper, this.sliderElement);
         sliderWrapper.appendChild(this.sliderElement);
 
         // Add slider class to moving element
-        this.sliderElement.classList.add('vjslider__slider');
+        this.sliderElement.classList.add("vjslider__slider");
 
         // Add slide class to each slide
-        this.slides.forEach((slide) => slide.classList.add('vjslider__slide'));
+        this.slides.forEach((slide) => slide.classList.add("vjslider__slide"));
     }
 
 
@@ -119,14 +119,14 @@ class VJSlider { // eslint-disable-line no-unused-vars
         // Prepend clones at the beginning of slider
         firstElements.forEach((el) => {
             const clone = el.cloneNode(true);
-            clone.classList.add('vjslider__clone');
+            clone.classList.add("vjslider__clone");
             this.sliderElement.appendChild(clone);
         });
 
         // Append clones at the end of the slider
         lastElements.reverse().forEach((el) => {
             const clone = el.cloneNode(true);
-            clone.classList.add('vjslider__clone');
+            clone.classList.add("vjslider__clone");
             this.sliderElement.insertBefore(clone, this.sliderElement.firstChild);
         });
 
@@ -158,20 +158,20 @@ class VJSlider { // eslint-disable-line no-unused-vars
      */
     _transitionEnd() {
         const eventList = [
-            'oTransitionEnd',
-            'MSTransitionEnd',
-            'msTransitionEnd',
-            'transitionend',
-            'webkitTransitionEnd'
+            "oTransitionEnd",
+            "MSTransitionEnd",
+            "msTransitionEnd",
+            "transitionend",
+            "webkitTransitionEnd"
         ];
         eventList.forEach((event) => {
             this.sliderElement.addEventListener(event, () => {
                 if (this._isFunction(this.transitionEndCallback)) {
-                    // Clear the callback if needed. We want to make sure that it's executed only once.
+                    // Clear the callback if needed. We want to make sure that it"s executed only once.
                     this.transitionEndCallback = this.transitionEndCallback();
 
                     // Remove animating class and do magic for infinite sliding.
-                    this.sliderElement.classList.remove('vjslider__slider--animate');
+                    this.sliderElement.classList.remove("vjslider__slider--animate");
                     this._moveTo(this.currentSlide);
                 }
             });
@@ -181,7 +181,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
     /**
      * Check if passed object is a function
      *
-     * @param {*} obj object to check whether it's callable or not
+     * @param {*} obj object to check whether it"s callable or not
      * @returns {boolean} true if given object is a function, false otherwise
      * @private
      */
@@ -197,7 +197,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
      * @private
      */
     _moveTo(index) {
-        this.sliderElement.style.transform = 'translate3d(-' + this._calculatePosition(index) + '%, 0, 0)';
+        this.sliderElement.style.transform = "translate3d(-" + this._calculatePosition(index) + "%, 0, 0)";
     }
 
 
@@ -215,3 +215,5 @@ class VJSlider { // eslint-disable-line no-unused-vars
 
 
 }
+
+module.exports = VJSlider;
