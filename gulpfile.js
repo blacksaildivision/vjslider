@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const esLint = require('gulp-eslint');
-const uglify = require('gulp-uglify');
 const connect = require('gulp-connect');
 const casperJs = require('gulp-casperjs');
 const sass = require('gulp-sass');
@@ -15,13 +14,6 @@ gulp.task('connect', () => {
     });
 });
 
-
-gulp.task('scripts', () => {
-    return gulp.src('src/js/vjslider.js')
-        .pipe(uglify())
-        .pipe(gulp.dest('dist'))
-        .pipe(connect.reload());
-});
 
 gulp.task('styles', () => {
     return gulp.src('src/scss/vjslider.scss')
