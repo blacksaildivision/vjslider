@@ -215,3 +215,5 @@ class VJSlider { // eslint-disable-line no-unused-vars
 
 
 }
+
+module.exports = VJSlider;
