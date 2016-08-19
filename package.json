@@ -1,6 +1,6 @@
 {
   "name": "vjslider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Super small and responsive vanilla js slider",
   "main": "gulpfile.js",
   "scripts": {
@@ -16,7 +16,9 @@
     "js",
     "carousel",
     "vjslider",
-    "responsive"
+    "responsive",
+    "webpack",
+    "es6"
   ],
   "author": "Black Sail Division",
   "license": "Apache-2.0",
