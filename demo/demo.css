@@ -65,6 +65,11 @@ main {
     padding: 10rem;
     color: #fff;
     text-align: center;
+    height: 1rem;
+}
+
+.carousel__slide--higher{
+    height: 3rem;
 }
 
 .carousel__slide--blue {

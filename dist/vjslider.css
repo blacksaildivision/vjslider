@@ -1,1 +1,1 @@
-.vjslider,.vjslider__slide{width:100%}.vjslider{overflow:hidden}.vjslider__slider{display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;-ms-flex-wrap:nowrap;flex-wrap:nowrap;transition:none}.vjslider__slider--animate{transition:transform .3s}
+.vjslider,.vjslider__slide{width:100%}.vjslider{overflow:hidden}.vjslider__slider{display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;-ms-flex-wrap:nowrap;flex-wrap:nowrap;-ms-flex-align:center;align-items:center;transition:none}.vjslider__slider--animate{transition:transform .3s}
