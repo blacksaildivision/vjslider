@@ -45,6 +45,7 @@ Changelog
 ---------
 
 You can view VJSlider changelog on [GitHub Wiki page](https://github.com/blacksaildivision/vjslider/wiki/Changelog). 
+
 Development
 -----------
 vjslider is build with WebPack and Gulp. 
