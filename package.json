@@ -4,7 +4,7 @@
   "description": "Super small and responsive vanilla js slider",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "webpack -p",
+    "start": "webpack-dev-server --output-public-path=/dist/",
     "test": "gulp test"
   },
   "repository": {
@@ -37,7 +37,6 @@
     "gulp-autoprefixer": "^3.1.1",
     "gulp-casperjs": "0.0.6",
     "gulp-clean-css": "^2.0.12",
-    "gulp-connect": "^5.0.0",
     "gulp-sass": "^2.3.2",
     "webpack": "^1.13.2"
   }

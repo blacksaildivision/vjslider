@@ -6,6 +6,7 @@ module.exports = {
         libraryTarget: "var",
         library: "VJSlider"
     },
+    watch: true,
     module: {
         preLoaders: [
             {test: /\.js$/, loader: "eslint", exclude: /node_modules/}
@@ -17,5 +18,9 @@ module.exports = {
     eslint: {
         failOnWarning: false,
         failOnError: true
+    },
+    devServer: {
+        port: 8363,
+        inline: true
     }
 };

@@ -1,17 +1,8 @@
 const gulp = require('gulp');
-const connect = require('gulp-connect');
 const casperJs = require('gulp-casperjs');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
-
-
-gulp.task('connect', () => {
-    connect.server({
-        port: 8363,
-        livereload: true
-    });
-});
 
 
 gulp.task('styles', () => {
@@ -33,7 +24,7 @@ gulp.task('casperjs', () => {
 
 gulp.task('test', ['casperjs']);
 
-gulp.task('watch', ['connect'], () => {
+gulp.task('watch', () => {
     gulp.watch('src/js/vjslider.js', []);
 });
 
