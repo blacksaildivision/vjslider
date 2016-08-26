@@ -2,6 +2,7 @@ vjslider - Vanilla JS Slider
 ============================
 vjslider is:
  - super simple
+ - infinite
  - responsive
  - tiny 1.26kB gzipped
  - written in ES6
@@ -40,7 +41,10 @@ var slider = new VJSlider(document.querySelector(".carousel"));
 
 Full example in demo directory. 
 
+Changelog
+---------
 
+You can view VJSlider changelog on [GitHub Wiki page](https://github.com/blacksaildivision/vjslider/wiki/Changelog). 
 Development
 -----------
 vjslider is build with WebPack and Gulp. 
@@ -48,25 +52,25 @@ WebPack is responsible for building and linting JS files. If you need pure ES6 v
 Gulp is building Sass files, running local server and running tests. 
 
 
-Install all dependencies
+Install dependencies, webpack and run local server
 ```
 npm install
+npm install -g webpack webpack-dev-server
+npm start
 ```
 
-
-Webpack:
+Prepare production build
 ```
-npm install -g webpack
 webpack -p
 ```
 
-Gulp:
+Webpack has local server running after `npm start` command. To see the demo visit [http://localhost:8363/demo](http://localhost:8363/demo)
+
+Gulp (tasks for compiling Sass files):
 ```
 npm install -g gulp
-gulp
+gulp styles
 ```
-
-Gulp has local server running. To see the demo visit [http://localhost:8363/demo](http://localhost:8363/demo)
 
 Run casperjs tests (gulp local server must be running)
 ```
