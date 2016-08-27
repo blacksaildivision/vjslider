@@ -1,6 +1,7 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const autoprefixer = require("autoprefixer");
 module.exports = {
-    entry: "./src/js/vjslider.js",
+    entry: "./src/js/main.js",
     output: {
         path: "./dist/",
         filename: "vjslider.js",
@@ -16,7 +17,7 @@ module.exports = {
             {test: /\.js$/, loader: "babel-loader", exclude: /node_modules/},
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader"),
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader!postcss-loader"),
                 exclude: /node_modules/
             }
         ]
@@ -27,6 +28,9 @@ module.exports = {
     },
     sassLoader:{
         outputStyle: "expanded"
+    },
+    postcss: function () {
+        return [ autoprefixer({ browsers: ["> 5%"] })];
     },
     devServer: {
         port: 8363,

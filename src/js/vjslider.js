@@ -1,6 +1,3 @@
-// Include styles for webpack
-require("./../scss/vjslider.scss");
-
 class VJSlider { // eslint-disable-line no-unused-vars
     constructor(sliderElement) {
         this.sliderElement = sliderElement;
