@@ -62,10 +62,11 @@ main {
 }
 
 .carousel__slide {
-    padding: 10rem;
+    height: 20rem;
     color: #fff;
-    text-align: center;
-    height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .carousel__slide--higher{

@@ -1,5 +1,7 @@
+require("./../scss/vjslider.scss");
+
 class VJSlider { // eslint-disable-line no-unused-vars
-    constructor(sliderElement) {
+    constructor(sliderElement, sliderOptions = {}) {
         this.sliderElement = sliderElement;
         this.slides = Array.prototype.slice.call(this.sliderElement.children);
         this.slidesCount = this.slides.length;
@@ -7,7 +9,10 @@ class VJSlider { // eslint-disable-line no-unused-vars
             throw new DOMException("Slider does not contain any children (slides)");
         }
         this.currentSlide = 0;
-        this.numberOfClones = 0;
+        this.options = this._getOptions(sliderOptions);
+
+        // Make sure that number of clones is always greater than number of visible slides. Min is 2 clones
+        this.numberOfClones = this.options.numberOfVisibleSlides + 1;
         this.transitionEndCallback = null;
 
         this.init();
@@ -17,9 +22,10 @@ class VJSlider { // eslint-disable-line no-unused-vars
 
     init() {
         this._build();
-        this.numberOfClones = this._createSlideClones(2);
+        this._createSlideClones(this.numberOfClones);
         this._transitionEnd();
-        this.sliderElement.style.width = (this.slides.length + this.numberOfClones * 2) * 100 + "%";
+        // Slider width = number of slides + number of clones from both sides / number of visible slides * 100%
+        this.sliderElement.style.width = (this.slides.length + this.numberOfClones * 2 ) / this.options.numberOfVisibleSlides * 100 + "%";
         this.slide(1);
     }
 
@@ -95,8 +101,12 @@ class VJSlider { // eslint-disable-line no-unused-vars
         // Add slider class to moving element
         this.sliderElement.classList.add("vjslider__slider");
 
-        // Add slide class to each slide
-        this.slides.forEach((slide) => slide.classList.add("vjslider__slide"));
+        const basis = 100 / (this.numberOfClones * 2 + this.slidesCount);
+        // Add slide class and basis to each slide
+        this.slides.forEach((slide) => {
+            slide.classList.add("vjslider__slide");
+            slide.style.flexBasis = basis + "%";
+        });
     }
 
 
@@ -211,6 +221,17 @@ class VJSlider { // eslint-disable-line no-unused-vars
     _calculatePosition(index) {
         // 100 * ( slide position ) / ( number of elements in slider )
         return 100 * (index + this.numberOfClones - 1) / (this.slidesCount + this.numberOfClones * 2);
+    }
+
+    _getOptions(options) {
+        const defaultOptions = {
+            numberOfVisibleSlides: 1
+        };
+        let sliderOptions = Object.assign(defaultOptions, options);
+        if (sliderOptions.numberOfVisibleSlides > this.slidesCount) {
+            throw new DOMException("Number of visible slides is greater than number of slides");
+        }
+        return sliderOptions;
     }
 
 

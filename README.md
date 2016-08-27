@@ -4,7 +4,7 @@ vjslider is:
  - super simple
  - infinite
  - responsive
- - tiny 1.26kB gzipped
+ - tiny 1.52kB gzipped
  - written in ES6
  - powered by WebPack
 
@@ -32,7 +32,8 @@ Include vjslider library:
 Run slider:
 ```js
 // Init slider
-var slider = new VJSlider(document.querySelector(".carousel"));
+var options = {};
+var slider = new VJSlider(document.querySelector(".carousel"), options);
 
 // You can manually change slides by using next() and prev() functions:
 //slider.next();
@@ -41,15 +42,23 @@ var slider = new VJSlider(document.querySelector(".carousel"));
 
 Full example in demo directory. 
 
+Options
+-------
+
+You can use following options:
+
+`numberOfVisibleSlides` (_default: 1_) - display given number of slides in slider viewport. Value can not be higher than number of children in slider element
+
 Changelog
 ---------
 
 You can view VJSlider changelog on [GitHub Wiki page](https://github.com/blacksaildivision/vjslider/wiki/Changelog). 
+
 Development
 -----------
 vjslider is build with WebPack and Gulp. 
-WebPack is responsible for building and linting JS files. If you need pure ES6 version, use script from ./src directory.
-Gulp is building Sass files, running local server and running tests. 
+WebPack is responsible for building and linting JS files, building CSS from Sass files. If you need pure ES6 version, use script from ./src directory.
+Gulp is running tests. 
 
 
 Install dependencies, webpack and run local server
@@ -66,13 +75,10 @@ webpack -p
 
 Webpack has local server running after `npm start` command. To see the demo visit [http://localhost:8363/demo](http://localhost:8363/demo)
 
-Gulp (tasks for compiling Sass files):
+
+Run casperjs tests (webpack-dev-server must be up and running)
 ```
 npm install -g gulp
-gulp styles
-```
-
-Run casperjs tests (gulp local server must be running)
-```
-gulp test
+npm start
+gulp casperjs
 ```
