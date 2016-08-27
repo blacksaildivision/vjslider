@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('kurwa', instanceOf (new VJSlider()));
     var slider = new VJSlider(document.querySelector('.carousel')),
         loopStarted = false,
         loop;
-    console.log(VJSlider);
 
     document.querySelector('.js-prev').addEventListener('click', function(event) {
         event.preventDefault();
