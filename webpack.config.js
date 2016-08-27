@@ -1,7 +1,7 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 module.exports = {
-    entry: "./src/js/main.js",
+    entry: "./src/js/vjslider.js",
     output: {
         path: "./dist/",
         filename: "vjslider.js",
