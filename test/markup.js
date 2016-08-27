@@ -6,7 +6,7 @@ casper.test.begin('Markup testing', 16, function(test) {
     'use strict';
 
     // Test general markup
-    casper.start('http://localhost:63342/vjslider/demo/', function() {
+    casper.start('http://localhost:8363/demo', function() {
         test.assertHttpStatus(200, 'it should load demo page');
         //console.log(this.getPageContent());
         test.assertExists('.vjslider', 'it should contain main wrapper for slider');
