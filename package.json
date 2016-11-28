@@ -40,7 +40,7 @@
     "gulp": "^3.9.1",
     "gulp-casperjs": "0.0.6",
     "node-sass": "^3.8.0",
-    "postcss-loader": "^0.11.0",
+    "postcss-loader": "^1.1.1",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2"
