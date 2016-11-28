@@ -3,13 +3,19 @@ require("./../scss/vjslider.scss");
 class VJSlider { // eslint-disable-line no-unused-vars
     constructor(sliderElement, sliderOptions = {}) {
         this.sliderElement = sliderElement;
-        this.slides = Array.prototype.slice.call(this.sliderElement.children);
+        this.options = this._getOptions(sliderOptions);
+
+        // Convert DOM elements to array for easier access from JS
+        // Remove all invisible slides (ie. display: none;) to avoid empty spacing
+        this.slides = Array.prototype.slice.call(this.sliderElement.children).filter((slide) => {
+            return slide.offsetParent !== null;
+        });
+
         this.slidesCount = this.slides.length;
         if (this.slidesCount === 0) {
             throw new DOMException("Slider does not contain any children (slides)");
         }
         this.currentSlide = 0;
-        this.options = this._getOptions(sliderOptions);
 
         // Make sure that number of clones is always greater than number of visible slides. Min is 2 clones
         this.numberOfClones = this.options.numberOfVisibleSlides + 1;
@@ -223,9 +229,16 @@ class VJSlider { // eslint-disable-line no-unused-vars
         return 100 * (index + this.numberOfClones - 1) / (this.slidesCount + this.numberOfClones * 2);
     }
 
+    /**
+     * Parse options. Fill missing defaults and validate given options if they are correct or not
+     * @param {Object} options
+     * @returns {Object}
+     * @private
+     */
     _getOptions(options) {
         const defaultOptions = {
-            numberOfVisibleSlides: 1
+            numberOfVisibleSlides: 1,
+            removeInvisibleSlides: false
         };
         let sliderOptions = Object.assign(defaultOptions, options);
         if (sliderOptions.numberOfVisibleSlides > this.slidesCount) {
@@ -233,8 +246,6 @@ class VJSlider { // eslint-disable-line no-unused-vars
         }
         return sliderOptions;
     }
-
-
 }
 
 module.exports = VJSlider;
