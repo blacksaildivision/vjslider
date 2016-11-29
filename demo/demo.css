@@ -93,6 +93,10 @@ main {
     background-color: #e77aad;
 }
 
+.carousel__slide--red {
+    background-color: #f64744;
+}
+
 .carousel__slide--hidden {
     display: none;
 }

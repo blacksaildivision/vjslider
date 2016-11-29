@@ -4,6 +4,16 @@ class VJSlider { // eslint-disable-line no-unused-vars
     constructor(sliderElement, sliderOptions = {}) {
         this.sliderElement = sliderElement;
         this.options = this._getOptions(sliderOptions);
+        this.transitionEndCallback = null;
+        this.init();
+    }
+
+    /**
+     * Build whole VJSlider
+     */
+    init() {
+        // Make sure that number of clones is always greater than number of visible slides. Min is 2 clones
+        this.numberOfClones = this.options.numberOfVisibleSlides + 1;
 
         // Convert DOM elements to array for easier access from JS
         // Remove all invisible slides (ie. display: none;) to avoid empty spacing
@@ -17,18 +27,6 @@ class VJSlider { // eslint-disable-line no-unused-vars
         }
         this.currentSlide = 0;
 
-        // Make sure that number of clones is always greater than number of visible slides. Min is 2 clones
-        this.numberOfClones = this.options.numberOfVisibleSlides + 1;
-        this.transitionEndCallback = null;
-
-        this.init();
-
-    }
-
-    /**
-     * Build whole VJSlider
-     */
-    init() {
         this._build();
         this._createSlideClones(this.numberOfClones);
         this._transitionEnd();
@@ -112,6 +110,15 @@ class VJSlider { // eslint-disable-line no-unused-vars
             slide.classList.remove("vjslider__slide");
             slide.removeAttribute("style");
         });
+
+        return this;
+    }
+
+    reload(alternativeOptions = null) {
+        if (alternativeOptions !== null) {
+            this.options = this._getOptions(alternativeOptions);
+        }
+        this.destroy().init();
     }
 
 
