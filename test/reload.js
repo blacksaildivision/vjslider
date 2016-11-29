@@ -1,4 +1,4 @@
-casper.test.begin("Sliding testing", 13, function (test) {
+casper.test.begin("Sliding testing", 14, function (test) {
     "use strict";
 
     // Test general markup
@@ -45,11 +45,12 @@ casper.test.begin("Sliding testing", 13, function (test) {
         this.click(".js-reload");
         test.assertExists(".vjslider", "it should contain main wrapper for slider after reload");
         test.assertEval(function () {
-            return __utils__.findAll(".vjslider__clone").length === 12;
+            return __utils__.findAll(".vjslider__clone").length === 14;
         }, "it contains correct number of cloned elements after reload");
 
         test.assertEval(function () {
-            return __utils__.findOne(".vjslider__slider").style.width.toFixed(4) === "333.3333%"
+            var width = __utils__.findOne(".vjslider__slider").style.width;
+            return parseFloat(width.replace("%", "")).toFixed(3) == 333.333;
         }, "it has correct width of whole slider after reload");
     });
 

@@ -3,18 +3,16 @@ require("./../scss/vjslider.scss");
 class VJSlider { // eslint-disable-line no-unused-vars
     constructor(sliderElement, sliderOptions = {}) {
         this.sliderElement = sliderElement;
-        this.options = this._getOptions(sliderOptions);
         this.transitionEndCallback = null;
-        this.init();
+        this.init(sliderOptions);
     }
 
     /**
      * Build whole VJSlider
+     *
+     * @param {Object} sliderOptions
      */
-    init() {
-        // Make sure that number of clones is always greater than number of visible slides. Min is 2 clones
-        this.numberOfClones = this.options.numberOfVisibleSlides + 1;
-
+    init(sliderOptions) {
         // Convert DOM elements to array for easier access from JS
         // Remove all invisible slides (ie. display: none;) to avoid empty spacing
         this.slides = Array.prototype.slice.call(this.sliderElement.children).filter((slide) => {
@@ -26,6 +24,12 @@ class VJSlider { // eslint-disable-line no-unused-vars
             throw new DOMException("Slider does not contain any children (slides)");
         }
         this.currentSlide = 0;
+
+        // Parse options
+        this.options = this._getOptions(sliderOptions);
+
+        // Make sure that number of clones is always greater than number of visible slides. Min is 2 clones
+        this.numberOfClones = this.options.numberOfVisibleSlides + 1;
 
         this._build();
         this._createSlideClones(this.numberOfClones);
@@ -122,10 +126,9 @@ class VJSlider { // eslint-disable-line no-unused-vars
      * @param {Object|null} alternativeOptions
      */
     reload(alternativeOptions = null) {
-        if (alternativeOptions !== null) {
-            this.options = this._getOptions(alternativeOptions);
-        }
-        this.destroy().init();
+        // If alternative options are used, replace old one. Otherwise use current options.
+        const options = (alternativeOptions !== null) ? alternativeOptions : this.options;
+        this.destroy().init(options);
     }
 
 
