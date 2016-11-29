@@ -69,7 +69,7 @@ main {
     justify-content: center;
 }
 
-.carousel__slide--higher{
+.carousel__slide--higher {
     height: 3rem;
 }
 
@@ -93,12 +93,16 @@ main {
     background-color: #e77aad;
 }
 
+.carousel__slide--hidden {
+    display: none;
+}
+
 .menu {
     display: flex;
     width: 100%;
     justify-content: center;
 }
 
-.menu__element{
+.menu__element {
     padding: 5px;
 }

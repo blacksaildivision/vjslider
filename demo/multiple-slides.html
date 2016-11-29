@@ -26,6 +26,9 @@
         <div class="carousel__slide carousel__slide--pink">
             <p>Slide 5</p>
         </div>
+        <div class="carousel__slide carousel__slide--hidden">
+            <p>Slide 6 (This slide should not be visible)</p>
+        </div>
     </div>
     <hr>
     <nav>
@@ -47,35 +50,35 @@
 </main>
 <script src="../dist/vjslider.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var slider = new VJSlider(document.querySelector('.carousel'), {
-            numberOfVisibleSlides: 2
-        }),
-                loopStarted = false,
-                loop;
+                numberOfVisibleSlides: 2
+            }),
+            loopStarted = false,
+            loop;
 
-        document.querySelector('.js-prev').addEventListener('click', function(event) {
+        document.querySelector('.js-prev').addEventListener('click', function (event) {
             event.preventDefault();
             slider.prev();
         });
 
-        document.querySelector('.js-next').addEventListener('click', function(event) {
+        document.querySelector('.js-next').addEventListener('click', function (event) {
             event.preventDefault();
             slider.next();
         });
 
-        document.querySelector('.js-start-loop').addEventListener('click', function(event) {
+        document.querySelector('.js-start-loop').addEventListener('click', function (event) {
             event.preventDefault();
             if (!loopStarted) {
                 slider.next();
-                loop = setInterval(function() {
+                loop = setInterval(function () {
                     slider.next();
                 }, 1000);
                 loopStarted = true;
             }
         });
 
-        document.querySelector('.js-stop-loop').addEventListener('click', function(event) {
+        document.querySelector('.js-stop-loop').addEventListener('click', function (event) {
             event.preventDefault();
             if (loopStarted) {
                 clearInterval(loop);
