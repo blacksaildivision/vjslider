@@ -46,6 +46,9 @@
             <li class="menu__element">
                 <a href="#" class="js-stop-loop">Stop loop</a>
             </li>
+            <li class="menu__element">
+                <a href="#" class="js-reload">Reload with new settings loop</a>
+            </li>
         </ul>
     </nav>
 </main>
@@ -85,6 +88,15 @@
                 clearInterval(loop);
                 loopStarted = false;
             }
+        });
+
+        document.querySelector('.js-reload').addEventListener('click', function (event) {
+            event.preventDefault();
+            // Remove hidden class
+            document.querySelector('.carousel__slide--red').classList.remove('carousel__slide--hidden');
+            slider.reload({
+                numberOfVisibleSlides: 6
+            });
         });
     });
 </script>
