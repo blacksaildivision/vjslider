@@ -87,6 +87,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
 
     /**
      * Revert HTML to original state from before VJSlider
+     * @returns {VJSlider}
      */
     destroy() {
         // Unwrap from created wrapper
@@ -114,6 +115,12 @@ class VJSlider { // eslint-disable-line no-unused-vars
         return this;
     }
 
+    /**
+     * Reload whole slider.
+     * It is possible to pass alternative options
+     *
+     * @param {Object|null} alternativeOptions
+     */
     reload(alternativeOptions = null) {
         if (alternativeOptions !== null) {
             this.options = this._getOptions(alternativeOptions);
