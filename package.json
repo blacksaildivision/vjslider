@@ -1,6 +1,6 @@
 {
   "name": "vjslider",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Super small and responsive vanilla js slider",
   "scripts": {
     "start": "webpack-dev-server --output-public-path=/dist/",
