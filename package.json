@@ -2,10 +2,9 @@
   "name": "vjslider",
   "version": "1.0.3",
   "description": "Super small and responsive vanilla js slider",
-  "main": "gulpfile.js",
   "scripts": {
     "start": "webpack-dev-server --output-public-path=/dist/",
-    "test": "gulp casperjs"
+    "test": "casperjs test test/*.js"
   },
   "repository": {
     "type": "git",
@@ -37,8 +36,6 @@
     "eslint": "^3.3.1",
     "eslint-loader": "^1.5.0",
     "extract-text-webpack-plugin": "^1.0.1",
-    "gulp": "^3.9.1",
-    "gulp-casperjs": "0.0.6",
     "node-sass": "^3.8.0",
     "postcss-loader": "^1.1.1",
     "sass-loader": "^4.0.0",

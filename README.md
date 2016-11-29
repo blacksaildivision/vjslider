@@ -58,8 +58,6 @@ Development
 -----------
 vjslider is build with WebPack and Gulp. 
 WebPack is responsible for building and linting JS files, building CSS from Sass files. If you need pure ES6 version, use script from ./src directory.
-Gulp is running tests. 
-
 
 Install dependencies, webpack and run local server
 ```
@@ -78,7 +76,5 @@ Webpack has local server running after `npm start` command. To see the demo visi
 
 Run casperjs tests (webpack-dev-server must be up and running)
 ```
-npm install -g gulp
-npm start
-gulp casperjs
+npm test
 ```
