@@ -36,4 +36,13 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         slider.destroy();
     });
+
+    document.querySelector('.js-reload').addEventListener('click', function (event) {
+        event.preventDefault();
+        // Remove hidden class
+        document.querySelector('.carousel__slide--red').classList.remove('carousel__slide--hidden');
+        slider.reload({
+            numberOfVisibleSlides: 2
+        });
+    });
 });
