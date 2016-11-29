@@ -25,7 +25,9 @@ class VJSlider { // eslint-disable-line no-unused-vars
 
     }
 
-
+    /**
+     * Build whole VJSlider
+     */
     init() {
         this._build();
         this._createSlideClones(this.numberOfClones);
@@ -75,7 +77,6 @@ class VJSlider { // eslint-disable-line no-unused-vars
     next() {
         return this.slide(this.currentSlide + 1);
     }
-
 
     /**
      * Move slider to previous slide
@@ -201,7 +202,6 @@ class VJSlider { // eslint-disable-line no-unused-vars
      */
     _transitionEnd() {
         const eventList = [
-            "oTransitionEnd",
             "MSTransitionEnd",
             "msTransitionEnd",
             "transitionend",
