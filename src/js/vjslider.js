@@ -25,7 +25,9 @@ class VJSlider { // eslint-disable-line no-unused-vars
 
     }
 
-
+    /**
+     * Build whole VJSlider
+     */
     init() {
         this._build();
         this._createSlideClones(this.numberOfClones);
@@ -76,7 +78,6 @@ class VJSlider { // eslint-disable-line no-unused-vars
         return this.slide(this.currentSlide + 1);
     }
 
-
     /**
      * Move slider to previous slide
      *
@@ -84,6 +85,33 @@ class VJSlider { // eslint-disable-line no-unused-vars
      */
     prev() {
         return this.slide(this.currentSlide - 1);
+    }
+
+    /**
+     * Revert HTML to original state from before VJSlider
+     */
+    destroy() {
+        // Unwrap from created wrapper
+        const wrapper = this.sliderElement.parentNode,
+            wrapperParent = wrapper.parentNode;
+        wrapperParent.insertBefore(wrapper.firstChild, wrapper);
+        wrapperParent.removeChild(wrapper);
+
+        // Remove classes from slider element
+        this.sliderElement.classList.remove("vjslider__slider");
+        this.sliderElement.classList.remove("vjslider__slider--animate");
+
+        // Remove style attribute
+        this.sliderElement.removeAttribute("style");
+
+        // Remove clones
+        [].forEach.call(this.sliderElement.querySelectorAll(".vjslider__clone"), clone => clone.remove());
+
+        // Remove classes and attributes from slides
+        this.slides.forEach((slide) => {
+            slide.classList.remove("vjslider__slide");
+            slide.removeAttribute("style");
+        });
     }
 
 
@@ -174,7 +202,6 @@ class VJSlider { // eslint-disable-line no-unused-vars
      */
     _transitionEnd() {
         const eventList = [
-            "oTransitionEnd",
             "MSTransitionEnd",
             "msTransitionEnd",
             "transitionend",
