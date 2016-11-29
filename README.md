@@ -4,7 +4,7 @@ vjslider is:
  - super simple
  - infinite
  - responsive
- - tiny 1.52kB gzipped
+ - tiny 1.68kB gzipped
  - written in ES6
  - powered by WebPack
 
