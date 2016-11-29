@@ -1,4 +1,4 @@
-casper.test.begin('Sliding testing',11, function(test) {
+casper.test.begin('Sliding testing',12, function(test) {
     'use strict';
 
     // Multiple visible slides test
@@ -10,6 +10,7 @@ casper.test.begin('Sliding testing',11, function(test) {
 
         test.assertExists('.vjslider__clone', 'it contains clones');
         test.assertExists('.carousel__slide--blue.vjslider__clone', 'it contains valid element cloned');
+        test.assertNotExists('.carousel__slide--hidden.vjslider__clone', 'it does not clone hidden elements');
         test.assertEval(function() {
             return __utils__.findAll('.vjslider__clone').length === 6;
         }, 'it contains correct number of cloned elements');

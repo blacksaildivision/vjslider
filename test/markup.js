@@ -2,7 +2,7 @@ casper.on('remote.message', function(msg) {
     this.echo(msg);
 });
 
-casper.test.begin('Markup testing', 16, function(test) {
+casper.test.begin('Markup testing', 17, function(test) {
     'use strict';
 
     // Test general markup
@@ -22,6 +22,7 @@ casper.test.begin('Markup testing', 16, function(test) {
         test.assertExists('.carousel__slide--purple.vjslider__clone', 'it contains second element cloned');
         test.assertExists('.carousel__slide--pink.vjslider__clone', 'it contains last element cloned');
         test.assertExists('.carousel__slide--green.vjslider__clone', 'it contains one before last element cloned');
+        test.assertNotExists('.carousel__slide--hidden.vjslider__clone', 'it does not clone hidden elements');
     });
 
     // Single slide test
