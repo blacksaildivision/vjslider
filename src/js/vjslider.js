@@ -169,6 +169,8 @@ class VJSlider { // eslint-disable-line no-unused-vars
      * @private
      */
     _createSlideClones(numberOfClones) {
+        // Make sure that there are enough slides available for displaying more than single slide
+        // Clone everything until required number of slides is reached
         while (this.options.numberOfVisibleSlides > this.slides.length) {
             this._cloneNodes(this.slides);
             this.slides = this.slides.concat(this.slides);
@@ -178,6 +180,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
         // Get first and last n elements
         let firstElements = this.slides.slice(0, numberOfClones),
             lastElements = this.slides.slice(-1 * numberOfClones);
+
         // Make sure that arrays with elements contains exact number of clones.
         // For instances if numberOfClones = 2 but this.slides.length = 1
         firstElements = this._fillMissing(firstElements, numberOfClones, this.slides[0]);
@@ -196,8 +199,13 @@ class VJSlider { // eslint-disable-line no-unused-vars
         return numberOfClones;
     }
 
-    _cloneNodes(list) {
-        list.forEach((el) => {
+    /**
+     * Clone given nodes list and append them to end of slides list
+     * @param {Array} nodesList
+     * @private
+     */
+    _cloneNodes(nodesList) {
+        nodesList.forEach((el) => {
             const clone = el.cloneNode(true);
             clone.classList.add("vjslider__clone");
             this.sliderElement.appendChild(clone);
