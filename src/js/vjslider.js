@@ -169,6 +169,12 @@ class VJSlider { // eslint-disable-line no-unused-vars
      * @private
      */
     _createSlideClones(numberOfClones) {
+        while (this.options.numberOfVisibleSlides > this.slides.length) {
+            this._cloneNodes(this.slides);
+            this.slides = this.slides.concat(this.slides);
+            this.slidesCount = this.slides.length;
+        }
+
         // Get first and last n elements
         let firstElements = this.slides.slice(0, numberOfClones),
             lastElements = this.slides.slice(-1 * numberOfClones);
@@ -177,14 +183,10 @@ class VJSlider { // eslint-disable-line no-unused-vars
         firstElements = this._fillMissing(firstElements, numberOfClones, this.slides[0]);
         lastElements = this._fillMissing(lastElements, numberOfClones, this.slides[this.slides.length - 1]);
 
-        // Prepend clones at the beginning of slider
-        firstElements.forEach((el) => {
-            const clone = el.cloneNode(true);
-            clone.classList.add("vjslider__clone");
-            this.sliderElement.appendChild(clone);
-        });
-
         // Append clones at the end of the slider
+        this._cloneNodes(firstElements);
+
+        // Prepend clones at the beginning of slider
         lastElements.reverse().forEach((el) => {
             const clone = el.cloneNode(true);
             clone.classList.add("vjslider__clone");
@@ -192,6 +194,14 @@ class VJSlider { // eslint-disable-line no-unused-vars
         });
 
         return numberOfClones;
+    }
+
+    _cloneNodes(list) {
+        list.forEach((el) => {
+            const clone = el.cloneNode(true);
+            clone.classList.add("vjslider__clone");
+            this.sliderElement.appendChild(clone);
+        });
     }
 
     /**
@@ -281,14 +291,9 @@ class VJSlider { // eslint-disable-line no-unused-vars
      */
     _getOptions(options) {
         const defaultOptions = {
-            numberOfVisibleSlides: 1,
-            removeInvisibleSlides: false
+            numberOfVisibleSlides: 1
         };
-        let sliderOptions = Object.assign(defaultOptions, options);
-        if (sliderOptions.numberOfVisibleSlides > this.slidesCount) {
-            throw new DOMException("Number of visible slides is greater than number of slides");
-        }
-        return sliderOptions;
+        return Object.assign(defaultOptions, options);
     }
 }
 
