@@ -20,15 +20,9 @@
         <div class="carousel__slide carousel__slide--orange">
             <p>Slide 3</p>
         </div>
-        <div class="carousel__slide carousel__slide--green">
-            <p>Slide 4</p>
-        </div>
-        <div class="carousel__slide carousel__slide--pink">
-            <p>Slide 5</p>
-        </div>
         <div class="carousel__slide carousel__slide--red carousel__slide--hidden">
             <!-- This slide should not be visible because of hidden modifier -->
-            <p>Slide 6</p>
+            <p>Slide 4</p>
         </div>
     </div>
     <hr>
@@ -50,13 +44,15 @@
                 <a href="#" class="js-destroy">Destroy</a>
             </li>
             <li class="menu__element">
-                <a href="#" class="js-reload" data-number-of-slides="2">Reload with new options</a>
+                <a href="#" class="js-reload" data-number-of-slides="6">Reload with new settings loop</a>
             </li>
         </ul>
     </nav>
 </main>
 <script src="../dist/vjslider.js"></script>
-<script>var sliderOptions = {};</script>
+<script>var sliderOptions = {
+    numberOfVisibleSlides: 12
+};</script>
 <script src="nav.js"></script>
 </body>
 </html>

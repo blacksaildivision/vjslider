@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var slider = new VJSlider(document.querySelector('.carousel')),
+    var slider = new VJSlider(document.querySelector('.carousel'), sliderOptions),
         loopStarted = false,
         loop;
 
@@ -32,17 +32,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    document.querySelector('.js-destroy').addEventListener('click', function (event) {
-        event.preventDefault();
-        slider.destroy();
-    });
-
-    document.querySelector('.js-reload').addEventListener('click', function (event) {
-        event.preventDefault();
-        // Remove hidden class
-        document.querySelector('.carousel__slide--red').classList.remove('carousel__slide--hidden');
-        slider.reload({
-            numberOfVisibleSlides: 2
+    if (document.querySelector('.js-destroy') !== null) {
+        document.querySelector('.js-destroy').addEventListener('click', function (event) {
+            event.preventDefault();
+            slider.destroy();
         });
-    });
+    }
+
+    if (document.querySelector('.js-reload') !== null) {
+        document.querySelector('.js-reload').addEventListener('click', function (event) {
+            event.preventDefault();
+            // Remove hidden class
+            document.querySelector('.carousel__slide--red').classList.remove('carousel__slide--hidden');
+            slider.reload({
+                numberOfVisibleSlides: parseInt(this.dataset.numberOfSlides)
+            });
+        });
+    }
 });
