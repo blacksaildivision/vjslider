@@ -1,4 +1,4 @@
-import Swipe from './../src/js/swipe';
+import Swipe from './../../src/js/swipe';
 
 describe('Swipe', () => {
     document.body.innerHTML = '<div class="element">Test</div>';
