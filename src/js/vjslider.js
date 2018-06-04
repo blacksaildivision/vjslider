@@ -15,9 +15,9 @@ class VJSlider { // eslint-disable-line no-unused-vars
      */
     init(sliderOptions) {
         // Convert DOM elements to array for easier access from JS
-        // Remove all invisible slides (ie. display: none;) to avoid empty spacing
+        // Remove all invisible slides - (display: none;) to avoid empty spacing
         this.slides = Array.prototype.slice.call(this.sliderElement.children).filter((slide) => {
-            return slide.offsetParent !== null;
+            return window.getComputedStyle(slide).display !== "none";
         });
 
         this.slidesCount = this.slides.length;

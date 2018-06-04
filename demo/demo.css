@@ -110,3 +110,12 @@ main {
 .menu__element {
     padding: 5px;
 }
+
+.slider-container {
+    display: block;
+}
+
+.slider-container--hidden {
+    display: none;
+}
+
