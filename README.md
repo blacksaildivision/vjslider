@@ -4,9 +4,11 @@ vjslider is:
  - super simple
  - infinite
  - responsive
- - tiny 1.68kB gzipped
+ - touch friendly
+ - tiny 2.08kB gzipped
  - written in ES6
  - powered by WebPack
+ - tested with Jest and Puppeteer
 
 How to use?
 -----------
@@ -55,6 +57,8 @@ You can use following options:
 
 `numberOfVisibleSlides` (_default: 1_) - display given number of slides in slider viewport. Value can not be higher than number of children in slider element
 
+`touchFriendly` (_default: true_) - make slider touch friendly by detecting left and right swipes with mouse and touch devices
+
 Changelog
 ---------
 
@@ -68,19 +72,18 @@ WebPack is responsible for building and linting JS files, building CSS from Sass
 Install dependencies, webpack and run local server
 ```
 npm install
-npm install -g webpack webpack-dev-server
 npm start
 ```
 
 Prepare production build
 ```
-webpack -p
+npm run build
 ```
 
 Webpack has local server running after `npm start` command. To see the demo visit [http://localhost:8363/demo](http://localhost:8363/demo)
 
 
-Run casperjs tests (webpack-dev-server must be up and running)
+Run tests (webpack-dev-server must be up and running)
 ```
 npm test
 ```

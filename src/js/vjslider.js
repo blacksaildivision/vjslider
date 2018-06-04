@@ -1,4 +1,5 @@
 require("./../scss/vjslider.scss");
+const Swipe = require("./swipe");
 
 class VJSlider { // eslint-disable-line no-unused-vars
     constructor(sliderElement, sliderOptions = {}) {
@@ -35,8 +36,14 @@ class VJSlider { // eslint-disable-line no-unused-vars
         this._createSlideClones(this.numberOfClones);
         this._transitionEnd();
         // Slider width = number of slides + number of clones from both sides / number of visible slides * 100%
-        this.sliderElement.style.width = (this.slides.length + this.numberOfClones * 2 ) / this.options.numberOfVisibleSlides * 100 + "%";
+        this.sliderElement.style.width = (this.slides.length + this.numberOfClones * 2) / this.options.numberOfVisibleSlides * 100 + "%";
         this.slide(1);
+
+        // Attach swipe actions to slider
+        if (this.options.touchFriendly === true) {
+            this.swipe = new Swipe(this.sliderElement, () => this.prev(), () => this.next());
+            this.swipe.init();
+        }
     }
 
     /**
@@ -115,6 +122,11 @@ class VJSlider { // eslint-disable-line no-unused-vars
             slide.classList.remove("vjslider__slide");
             slide.removeAttribute("style");
         });
+
+        // If swipe is attached, destroy it
+        if (this.swipe !== undefined) {
+            this.swipe.destroy();
+        }
 
         return this;
     }
@@ -299,7 +311,8 @@ class VJSlider { // eslint-disable-line no-unused-vars
      */
     _getOptions(options) {
         const defaultOptions = {
-            numberOfVisibleSlides: 1
+            numberOfVisibleSlides: 1,
+            touchFriendly: true
         };
         return Object.assign(defaultOptions, options);
     }
