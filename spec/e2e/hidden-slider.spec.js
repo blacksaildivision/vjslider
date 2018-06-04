@@ -3,6 +3,9 @@ describe('Demo page', () => {
         await page.goto('http://localhost:8363/demo/hidden-slider.html');
     });
 
+    /**
+     * This tests makes sure that when slider element is not visible it will not fail with Slider does not contains any children exception
+     */
     test('vjslider general markup', async () => {
         await expect(page).toMatchElement('.vjslider');
         await expect(page).toMatchElement('.vjslider > .vjslider__slider');
