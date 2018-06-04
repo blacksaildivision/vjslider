@@ -40,7 +40,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
         this.slide(1);
 
         // Attach swipe actions to slider
-        if (this.options.touchEnabled === true) {
+        if (this.options.touchFriendly === true) {
             this.swipe = new Swipe(this.sliderElement, () => this.prev(), () => this.next());
             this.swipe.init();
         }
@@ -312,7 +312,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
     _getOptions(options) {
         const defaultOptions = {
             numberOfVisibleSlides: 1,
-            touchEnabled: true
+            touchFriendly: true
         };
         return Object.assign(defaultOptions, options);
     }
