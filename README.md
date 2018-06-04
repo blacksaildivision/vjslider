@@ -54,6 +54,7 @@ Options
 You can use following options:
 
 `numberOfVisibleSlides` (_default: 1_) - display given number of slides in slider viewport. Value can not be higher than number of children in slider element
+
 `touchFriendly` (_default: true_) - make slider touch friendly by detecting left and right swipes with mouse and touch devices
 
 Changelog
