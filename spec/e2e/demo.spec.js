@@ -36,6 +36,42 @@ describe('Demo page', () => {
         expect(parseFloat(newSliderPosition)).toBe(-22.2222);
     });
 
+    test('swiping left with to small movement', async () => {
+        await page.mouse.move(300, 300);
+        await page.mouse.down();
+        await page.mouse.move(250, 300);
+        await page.mouse.up();
+        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
+        expect(parseFloat(sliderPosition)).toBe(-22.2222);
+    });
+
+    test('swiping left', async () => {
+        await page.mouse.move(300, 300);
+        await page.mouse.down();
+        await page.mouse.move(100, 300);
+        await page.mouse.up();
+        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
+        expect(parseFloat(sliderPosition)).toBe(-33.3333);
+    });
+
+    test('swiping right with to small movement', async () => {
+        await page.mouse.move(300, 300);
+        await page.mouse.down();
+        await page.mouse.move(350, 300);
+        await page.mouse.up();
+        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
+        expect(parseFloat(sliderPosition)).toBe(-33.3333);
+    });
+
+    test('swiping right', async () => {
+        await page.mouse.move(300, 300);
+        await page.mouse.down();
+        await page.mouse.move(500, 300);
+        await page.mouse.up();
+        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
+        expect(parseFloat(sliderPosition)).toBe(-22.2222);
+    });
+
     test('reloading', async () => {
         await page.click('.js-reload');
         expect(await page.$$eval('.vjslider__clone', elements => elements.length)).toBe(6);
