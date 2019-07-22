@@ -28,10 +28,7 @@ module.exports = (env, argv) => {
                             loader: MiniCssExtractPlugin.loader
                         },
                         {
-                            loader: 'css-loader',
-                            options: {
-                                minimize: argv.mode === 'production'
-                            }
+                            loader: 'css-loader'
                         },
                         {
                             loader: 'sass-loader',
