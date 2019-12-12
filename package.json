@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --mode development",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "jest ./spec/unit-tests",
-    "test:e2e": "jest --config ./spec/jest.config.js ./spec/e2e/single-slide.spec.js"
+    "test:e2e": "jest --config ./spec/jest.config.js ./spec/e2e"
   },
   "repository": {
     "type": "git",
