@@ -33,7 +33,9 @@ module.exports = (env, argv) => {
                         {
                             loader: 'sass-loader',
                             options: {
-                                outputStyle: 'expanded'
+                                sassOptions: {
+                                    outputStyle: 'expanded'
+                                }
                             }
                         },
                         {
