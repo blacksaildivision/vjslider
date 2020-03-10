@@ -1,5 +1,6 @@
 require("./../scss/vjslider.scss");
 const Swipe = require("./swipe");
+const SlideAnimation = require("./slide-animation");
 
 class VJSlider { // eslint-disable-line no-unused-vars
     constructor(sliderElement, sliderOptions = {}) {
@@ -37,13 +38,20 @@ class VJSlider { // eslint-disable-line no-unused-vars
         this._transitionEnd();
         // Slider width = number of slides + number of clones from both sides / number of visible slides * 100%
         this.sliderElement.style.width = (this.slides.length + this.numberOfClones * 2) / this.options.numberOfVisibleSlides * 100 + "%";
-        this.slide(1);
 
         // Attach swipe actions to slider
         if (this.options.touchFriendly === true) {
             this.swipe = new Swipe(this.sliderElement, () => this.prev(), () => this.next());
             this.swipe.init();
         }
+        
+        // Attach waiting for animation end 
+        if(this.options.waitForAnimationEnd === true){
+        	this.slideAnimation = new SlideAnimation(this.sliderElement);	
+        }
+        
+        // Set slide to first slide
+        this.slide(1);
     }
 
     /**
@@ -53,6 +61,12 @@ class VJSlider { // eslint-disable-line no-unused-vars
      * @return {int} current slide index
      */
     slide(index) {
+    	// If waiting for slide animation end is configured, do nothing until animation has ended
+    	if(this.options.waitForAnimationEnd === true && this.slideAnimation.hasEnded() === false){
+    		return this.currentSlide;
+    	}
+    	
+    	// Update current slide to given index
         this.currentSlide = index;
 
         // Add class that enables animations
@@ -127,6 +141,11 @@ class VJSlider { // eslint-disable-line no-unused-vars
         if (this.swipe !== undefined) {
             this.swipe.destroy();
         }
+        
+        // If slide animation is attached, destroy it
+        if(this.slideAnimation !== undefined){
+        	this.slideAnimation.destroy();
+        } 
 
         return this;
     }
@@ -257,7 +276,7 @@ class VJSlider { // eslint-disable-line no-unused-vars
         eventList.forEach((event) => {
             this.sliderElement.addEventListener(event, () => {
                 if (this._isFunction(this.transitionEndCallback)) {
-                    // Clear the callback if needed. We want to make sure that it"s executed only once.
+                    // Clear the callback if needed. We want to make sure that it's executed only once.
                     this.transitionEndCallback = this.transitionEndCallback();
 
                     // Remove animating class and do magic for infinite sliding.
@@ -312,7 +331,8 @@ class VJSlider { // eslint-disable-line no-unused-vars
     _getOptions(options) {
         const defaultOptions = {
             numberOfVisibleSlides: 1,
-            touchFriendly: true
+            touchFriendly: true,
+            waitForAnimationEnd: true
         };
         return Object.assign(defaultOptions, options);
     }
