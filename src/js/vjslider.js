@@ -44,12 +44,12 @@ class VJSlider { // eslint-disable-line no-unused-vars
             this.swipe = new Swipe(this.sliderElement, () => this.prev(), () => this.next());
             this.swipe.init();
         }
-        
+
         // Attach waiting for animation end 
-        if(this.options.waitForAnimationEnd === true){
-        	this.slideAnimation = new SlideAnimation(this.sliderElement);	
+        if (this.options.waitForAnimationEnd === true) {
+            this.slideAnimation = new SlideAnimation(this.sliderElement);
         }
-        
+
         // Set slide to first slide
         this.slide(1);
     }
@@ -61,12 +61,12 @@ class VJSlider { // eslint-disable-line no-unused-vars
      * @return {int} current slide index
      */
     slide(index) {
-    	// If waiting for slide animation end is configured, do nothing until animation has ended
-    	if(this.options.waitForAnimationEnd === true && this.slideAnimation.hasEnded() === false){
-    		return this.currentSlide;
-    	}
-    	
-    	// Update current slide to given index
+        // If waiting for slide animation end is configured, do nothing until animation has ended
+        if (this.options.waitForAnimationEnd === true && this.slideAnimation.hasEnded() === false) {
+            return this.currentSlide;
+        }
+
+        // Update current slide to given index
         this.currentSlide = index;
 
         // Add class that enables animations
@@ -141,11 +141,11 @@ class VJSlider { // eslint-disable-line no-unused-vars
         if (this.swipe !== undefined) {
             this.swipe.destroy();
         }
-        
+
         // If slide animation is attached, destroy it
-        if(this.slideAnimation !== undefined){
-        	this.slideAnimation.destroy();
-        } 
+        if (this.slideAnimation !== undefined) {
+            this.slideAnimation.destroy();
+        }
 
         return this;
     }
