@@ -59,6 +59,8 @@ You can use following options:
 
 `touchFriendly` (_default: true_) - make slider touch friendly by detecting left and right swipes with mouse and touch devices
 
+`waitForAnimationEnd` (_default: true_) - wait for animation slide end of slides change before it is possible to switch to next slide
+
 Changelog
 ---------
 
