@@ -4,7 +4,7 @@
   "description": "Super small and responsive vanilla js slider",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development",
+    "start": "webpack-dev-server --mode development --disable-host-check",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "jest ./spec/unit-tests",
     "test:e2e": "jest --config ./spec/jest.config.js ./spec/e2e"
@@ -29,26 +29,26 @@
   },
   "homepage": "https://github.com/blacksaildivision/vjslider#readme",
   "devDependencies": {
-    "@babel/core": "^7.8.7",
-    "@babel/plugin-transform-object-assign": "^7.8.3",
-    "@babel/preset-env": "^7.8.7",
-    "autoprefixer": "^9.7.4",
-    "babel-loader": "^8.0.6",
-    "css-loader": "^3.4.2",
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-transform-object-assign": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "autoprefixer": "^9.8.0",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.5.3",
     "cssnano": "^4.1.10",
-    "eslint": "^6.8.0",
-    "eslint-loader": "^3.0.3",
-    "jest": "^25.1.0",
+    "eslint": "^7.1.0",
+    "eslint-loader": "^4.0.2",
+    "jest": "^26.0.1",
     "jest-puppeteer": "^4.4.0",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
-    "puppeteer": "^2.1.1",
+    "puppeteer": "^3.3.0",
     "sass-loader": "^8.0.2",
-    "webpack": "^4.42.0",
+    "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   },
   "browserslist": [
     "> 1%"
