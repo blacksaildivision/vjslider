@@ -14,6 +14,7 @@ describe('Swipe', () => {
             expect(swipe).toHaveProperty('x');
             expect(swipe).toHaveProperty('pointerDownCallback');
             expect(swipe).toHaveProperty('pointerUpCallback');
+            expect(swipe).toHaveProperty('isPassiveSupported');
 
             expect(swipe.element).not.toBeNull();
             expect(swipe.swipeLeftEvent).not.toBeNull();
@@ -21,6 +22,7 @@ describe('Swipe', () => {
             expect(swipe.x).toBe(0);
             expect(swipe.pointerDownCallback).not.toBeNull();
             expect(swipe.pointerUpCallback).not.toBeNull();
+            expect(swipe.isPassiveSupported).toBe(true);
         });
     });
 
@@ -103,6 +105,32 @@ describe('Swipe', () => {
             });
             expect(swipeLeftMock.mock.calls.length).toBe(1);
             expect(swipeRightMock.mock.calls.length).toBe(1);
+        });
+    });
+
+    describe('_getPassiveSupport', () => {
+        test('supported passive option', () => {
+            expect(swipe._getPassiveSupport()).toBe(true);
+        });
+
+        test('unsupported passive option', () => {
+            window.addEventListener = jest.fn().mockImplementation(() => {
+                throw new Error('Unsupported');
+            });
+            expect(swipe._getPassiveSupport()).toBe(false);
+            window.addEventListener.mockClear();
+        });
+    });
+
+    describe('_getEventListenerOptions', () => {
+        test('options for browsers with passive support', () => {
+            swipe.isPassiveSupported = true;
+            expect(swipe._getEventListenerOptions()).toStrictEqual({passive: true});
+        });
+
+        test('options for browsers without passive support', () => {
+            swipe.isPassiveSupported = false;
+            expect(swipe._getEventListenerOptions()).toBe(false);
         });
     });
 });

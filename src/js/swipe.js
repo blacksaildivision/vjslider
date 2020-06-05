@@ -21,15 +21,17 @@ class Swipe {
         // Creating callback variables for easier adding end removing event listeners
         this.pointerDownCallback = this._pointerDown.bind(this);
         this.pointerUpCallback = this._pointerUp.bind(this);
+        this.isPassiveSupported = this._getPassiveSupport();
     }
 
     /**
      * Init swipe detection by attaching mouse and touch events to main element
      */
     init() {
-        this.element.addEventListener("touchstart", this.pointerDownCallback);
+        const options = this._getEventListenerOptions();
+        this.element.addEventListener("touchstart", this.pointerDownCallback, options);
         this.element.addEventListener("mousedown", this.pointerDownCallback);
-        this.element.addEventListener("touchend", this.pointerUpCallback);
+        this.element.addEventListener("touchend", this.pointerUpCallback, options);
         this.element.addEventListener("mouseup", this.pointerUpCallback);
     }
 
@@ -37,9 +39,10 @@ class Swipe {
      * Remove attached mouse and touch events from main element
      */
     destroy() {
-        this.element.removeEventListener("touchstart", this.pointerDownCallback);
+        const options = this._getEventListenerOptions();
+        this.element.removeEventListener("touchstart", this.pointerDownCallback, options);
         this.element.removeEventListener("mousedown", this.pointerDownCallback);
-        this.element.removeEventListener("touchend", this.pointerUpCallback);
+        this.element.removeEventListener("touchend", this.pointerUpCallback, options);
         this.element.removeEventListener("mouseup", this.pointerUpCallback);
     }
 
@@ -88,6 +91,41 @@ class Swipe {
         if (currentPosition < -threshold) {
             this.swipeRightEvent();
         }
+    }
+
+    /**
+     * Check if browser has support for passive listener
+     * @return {boolean}
+     * @private
+     */
+    _getPassiveSupport() {
+        let supported = false;
+        try {
+            window.addEventListener("passiveTest", null,
+                Object.defineProperty({}, "passive", {
+                    get: function () { // eslint-disable-line getter-return
+                        supported = true;
+                    }
+                }));
+        } catch (err) {
+            supported = false;
+        }
+        return supported;
+    }
+
+    /**
+     * Get options that should be passed to event listener
+     * @return {boolean|{passive: boolean}}
+     * @private
+     */
+    _getEventListenerOptions() {
+        // If passive is supported for addEventListener functionality, return it as an option
+        if (this.isPassiveSupported === true) {
+            return {passive: true};
+        }
+
+        // Return default options
+        return false;
     }
 }
 
