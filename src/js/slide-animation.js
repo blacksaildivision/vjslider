@@ -58,10 +58,10 @@ class SlideAnimation {
      */
     _startEvents() {
         return [
-            "MSTransitionStart",
-            "msTransitionStart",
-            "transitionstart",
-            "webkitTransitionStart"
+            'MSTransitionStart',
+            'msTransitionStart',
+            'transitionstart',
+            'webkitTransitionStart'
         ];
     }
 
@@ -70,10 +70,10 @@ class SlideAnimation {
      */
     _endEvents() {
         return [
-            "MSTransitionEnd",
-            "msTransitionEnd",
-            "transitionend",
-            "webkitTransitionEnd"
+            'MSTransitionEnd',
+            'msTransitionEnd',
+            'transitionend',
+            'webkitTransitionEnd'
         ];
     }
 }
