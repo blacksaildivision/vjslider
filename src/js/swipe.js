@@ -1,7 +1,7 @@
 /**
  * Helper class for detecting left and right swipes
  */
-class Swipe {
+export default class Swipe {
 
     /**
      * Swipe constructor
@@ -128,6 +128,3 @@ class Swipe {
         return false;
     }
 }
-
-
-module.exports = Swipe;

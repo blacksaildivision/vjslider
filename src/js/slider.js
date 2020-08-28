@@ -1,7 +1,7 @@
 /**
  * Helper class for calculating slides position in slider
  */
-class Slider {
+export default class Slider {
 
     /**
      * Slider constructor
@@ -154,5 +154,3 @@ class Slider {
         });
     }
 }
-
-module.exports = Slider;

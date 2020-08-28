@@ -1,11 +1,12 @@
-require("./../scss/vjslider.scss");
-const Swipe = require("./swipe");
-const SlideAnimation = require("./slide-animation");
+import './../scss/vjslider.scss';
+import Clones from './clones';
+import Slider from './slider';
+import Swipe from './swipe';
+import SlideAnimation from './slide-animation';
 
-class VJSlider { // eslint-disable-line no-unused-vars
+export default class VJSlider {
     constructor(sliderElement, sliderOptions = {}) {
         this.sliderElement = sliderElement;
-        this.transitionEndCallback = null;
         this.init(sliderOptions);
     }
 
@@ -18,26 +19,23 @@ class VJSlider { // eslint-disable-line no-unused-vars
         // Convert DOM elements to array for easier access from JS
         // Remove all invisible slides - (display: none;) to avoid empty spacing
         this.slides = Array.prototype.slice.call(this.sliderElement.children).filter((slide) => {
-            return window.getComputedStyle(slide).display !== "none";
+            return window.getComputedStyle(slide).display !== 'none';
         });
 
-        this.slidesCount = this.slides.length;
-        if (this.slidesCount === 0) {
-            throw new DOMException("Slider does not contain any children (slides)");
+        // Make sure that there are some slides inside the slider
+        if (this.slides.length === 0) {
+            throw new DOMException('Slider does not contain any children (slides)');
         }
-        this.currentSlide = 0;
 
         // Parse options
         this.options = this._getOptions(sliderOptions);
 
-        // Make sure that number of clones is always greater than number of visible slides. Min is 2 clones
-        this.numberOfClones = this.options.numberOfVisibleSlides + 1;
+        // Clone slides if it's necessary
+        this.clones = new Clones(this.sliderElement);
+        this.slides = this.clones.clone(this.slides, this.options.numberOfVisibleSlides);
 
-        this._build();
-        this._createSlideClones(this.numberOfClones);
-        this._transitionEnd();
-        // Slider width = number of slides + number of clones from both sides / number of visible slides * 100%
-        this.sliderElement.style.width = (this.slides.length + this.numberOfClones * 2) / this.options.numberOfVisibleSlides * 100 + "%";
+        // Add classes to elements
+        this._addClasses();
 
         // Attach swipe actions to slider
         if (this.options.touchFriendly === true) {
@@ -45,69 +43,33 @@ class VJSlider { // eslint-disable-line no-unused-vars
             this.swipe.init();
         }
 
-        // Attach waiting for animation end 
+        // Attach waiting for animation end
         if (this.options.waitForAnimationEnd === true) {
             this.slideAnimation = new SlideAnimation(this.sliderElement);
         }
 
-        // Set slide to first slide
-        this.slide(1);
-    }
-
-    /**
-     * Slide to given slide number
-     *
-     * @param {int} index Number of slide to go to
-     * @return {int} current slide index
-     */
-    slide(index) {
-        // If waiting for slide animation end is configured, do nothing until animation has ended
-        if (this.options.waitForAnimationEnd === true && this.slideAnimation.hasEnded() === false) {
-            return this.currentSlide;
-        }
-
-        // Update current slide to given index
-        this.currentSlide = index;
-
-        // Add class that enables animations
-        this.sliderElement.classList.add("vjslider__slider--animate");
-
-        // Move slider position to show given slide
-        this._moveTo(this.currentSlide);
-
-        // If slider is outside of the slides range, take care of infinite sliding
-        if (this.currentSlide > this.slidesCount) {
-            this.transitionEndCallback = () => {
-                this.currentSlide = 1;
-            };
-
-            return this.currentSlide;
-        }
-        if (this.currentSlide <= 0) {
-            this.transitionEndCallback = () => {
-                this.currentSlide = this.slidesCount;
-            };
-        }
-
-        return this.currentSlide;
+        // Add ability to slide slides
+        this.slider = new Slider(this.slides, this.options.numberOfVisibleSlides);
     }
 
     /**
      * Move slider to next slide
-     *
-     * @return {int} current slide index
      */
     next() {
-        return this.slide(this.currentSlide + 1);
+        if (this.options.waitForAnimationEnd === true && this.slideAnimation.hasEnded() === false) {
+            return;
+        }
+        this.slider.next();
     }
 
     /**
      * Move slider to previous slide
-     *
-     * @return {int} current slide index
      */
     prev() {
-        return this.slide(this.currentSlide - 1);
+        if (this.options.waitForAnimationEnd === true && this.slideAnimation.hasEnded() === false) {
+            return;
+        }
+        this.slider.prev();
     }
 
     /**
@@ -115,26 +77,19 @@ class VJSlider { // eslint-disable-line no-unused-vars
      * @returns {VJSlider}
      */
     destroy() {
-        // Unwrap from created wrapper
-        const wrapper = this.sliderElement.parentNode,
-            wrapperParent = wrapper.parentNode;
-        wrapperParent.insertBefore(wrapper.firstChild, wrapper);
-        wrapperParent.removeChild(wrapper);
-
-        // Remove classes from slider element
-        this.sliderElement.classList.remove("vjslider__slider");
-        this.sliderElement.classList.remove("vjslider__slider--animate");
+        // Remove class from slider element
+        this.sliderElement.classList.remove('vjslider');
 
         // Remove style attribute
-        this.sliderElement.removeAttribute("style");
+        this.sliderElement.removeAttribute('style');
 
         // Remove clones
-        [].forEach.call(this.sliderElement.querySelectorAll(".vjslider__clone"), clone => clone.remove());
+        this.clones.remove();
 
         // Remove classes and attributes from slides
         this.slides.forEach((slide) => {
-            slide.classList.remove("vjslider__slide");
-            slide.removeAttribute("style");
+            slide.classList.remove('vjslider__slide');
+            slide.removeAttribute('style');
         });
 
         // If swipe is attached, destroy it
@@ -162,164 +117,18 @@ class VJSlider { // eslint-disable-line no-unused-vars
         this.destroy().init(options);
     }
 
-
     /**
-     * Create necessary HTML elements around slider
-     * Add necessary CSS classes to all elements
-     *
-     * @return {undefined}
+     * Add necessary classes to DOM elements
      * @private
      */
-    _build() {
-        // Prepare slider wrapper
-        const parentElement = this.sliderElement.parentNode,
-            sliderWrapper = document.createElement("div");
-        sliderWrapper.className = "vjslider";
+    _addClasses() {
+        // Add slider class to main elements
+        this.sliderElement.classList.add('vjslider');
 
-        // Insert whole carousel into the wrapper
-        parentElement.replaceChild(sliderWrapper, this.sliderElement);
-        sliderWrapper.appendChild(this.sliderElement);
-
-        // Add slider class to moving element
-        this.sliderElement.classList.add("vjslider__slider");
-
-        const basis = 100 / (this.numberOfClones * 2 + this.slidesCount);
-        // Add slide class and basis to each slide
+        // Add slide class each slide
         this.slides.forEach((slide) => {
-            slide.classList.add("vjslider__slide");
-            slide.style.flexBasis = basis + "%";
+            slide.classList.add('vjslider__slide');
         });
-    }
-
-
-    /**
-     * Create clones of slides required for infinite animation
-     * @param {int} numberOfClones Number of clones to create at the beginning and at the end of the slides.
-     * So total number of clones is numberOfClones * 2
-     * @return {int} number of clones created on one side of the slider. Will always be the same as numberOfClones
-     * @private
-     */
-    _createSlideClones(numberOfClones) {
-        // Make sure that there are enough slides available for displaying more than single slide
-        // Clone everything until required number of slides is reached
-        while (this.options.numberOfVisibleSlides > this.slides.length) {
-            this._cloneNodes(this.slides);
-            this.slides = this.slides.concat(this.slides);
-            this.slidesCount = this.slides.length;
-        }
-
-        // Get first and last n elements
-        let firstElements = this.slides.slice(0, numberOfClones),
-            lastElements = this.slides.slice(-1 * numberOfClones);
-
-        // Make sure that arrays with elements contains exact number of clones.
-        // For instances if numberOfClones = 2 but this.slides.length = 1
-        firstElements = this._fillMissing(firstElements, numberOfClones, this.slides[0]);
-        lastElements = this._fillMissing(lastElements, numberOfClones, this.slides[this.slides.length - 1]);
-
-        // Append clones at the end of the slider
-        this._cloneNodes(firstElements);
-
-        // Prepend clones at the beginning of slider
-        lastElements.reverse().forEach((el) => {
-            const clone = el.cloneNode(true);
-            clone.classList.add("vjslider__clone");
-            this.sliderElement.insertBefore(clone, this.sliderElement.firstChild);
-        });
-
-        return numberOfClones;
-    }
-
-    /**
-     * Clone given nodes list and append them to end of slides list
-     * @param {Array} nodesList
-     * @private
-     */
-    _cloneNodes(nodesList) {
-        nodesList.forEach((el) => {
-            const clone = el.cloneNode(true);
-            clone.classList.add("vjslider__clone");
-            this.sliderElement.appendChild(clone);
-        });
-    }
-
-    /**
-     * Fill array to given length with given element
-     * This is helper function for the clones.
-     * @param {Array} arr Array to fill
-     * @param {int} filledArrayLength Number of elements that arr should contain
-     * @param {*} fillElement Value pushed to array if there are missing elements
-     * @returns {Array} Array with length = filledArrayLength
-     * @private
-     */
-    _fillMissing(arr, filledArrayLength, fillElement) {
-        while (arr.length < filledArrayLength) {
-            arr.push(fillElement);
-        }
-
-        return arr;
-    }
-
-    /**
-     * Attach event listener to slider element
-     *
-     * @return {undefined}
-     * @private
-     */
-    _transitionEnd() {
-        const eventList = [
-            "MSTransitionEnd",
-            "msTransitionEnd",
-            "transitionend",
-            "webkitTransitionEnd"
-        ];
-        eventList.forEach((event) => {
-            this.sliderElement.addEventListener(event, () => {
-                if (this._isFunction(this.transitionEndCallback)) {
-                    // Clear the callback if needed. We want to make sure that it's executed only once.
-                    this.transitionEndCallback = this.transitionEndCallback();
-
-                    // Remove animating class and do magic for infinite sliding.
-                    this.sliderElement.classList.remove("vjslider__slider--animate");
-                    this._moveTo(this.currentSlide);
-                }
-            });
-        });
-    }
-
-    /**
-     * Check if passed object is a function
-     *
-     * @param {*} obj object to check whether it"s callable or not
-     * @returns {boolean} true if given object is a function, false otherwise
-     * @private
-     */
-    _isFunction(obj) {
-        return Boolean(obj && obj.constructor && obj.call && obj.apply);
-    }
-
-    /**
-     * Move to given slide by setting position of slider via translate3d
-     *
-     * @param {int} index slide number
-     * @return {undefined}
-     * @private
-     */
-    _moveTo(index) {
-        this.sliderElement.style.transform = "translate3d(-" + this._calculatePosition(index) + "%, 0, 0)";
-    }
-
-
-    /**
-     * Calculate percentage position for translate
-     *
-     * @param {int} index slide number
-     * @returns {number} percentage position for translate animation
-     * @private
-     */
-    _calculatePosition(index) {
-        // 100 * ( slide position ) / ( number of elements in slider )
-        return 100 * (index + this.numberOfClones - 1) / (this.slidesCount + this.numberOfClones * 2);
     }
 
     /**
@@ -338,4 +147,3 @@ class VJSlider { // eslint-disable-line no-unused-vars
     }
 }
 
-module.exports = VJSlider;

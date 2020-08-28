@@ -1,7 +1,7 @@
 /**
  * Helper class for detecting when animation start and stops
  */
-class SlideAnimation {
+export default class SlideAnimation {
 
     /**
      * SlideAnimation constructor
@@ -77,5 +77,3 @@ class SlideAnimation {
         ];
     }
 }
-
-module.exports = SlideAnimation;

@@ -1,7 +1,7 @@
 /**
  * Helper for creating slide clones if there is not enough elements in the slider to provide infinite loop
  */
-class Clones {
+export default class Clones {
 
     /**
      * SlideAnimation constructor
@@ -66,5 +66,3 @@ class Clones {
         this.clones = [];
     }
 }
-
-module.exports = Clones;
