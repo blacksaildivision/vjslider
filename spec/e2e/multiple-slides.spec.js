@@ -1,46 +1,55 @@
 describe('Multiple slides', () => {
+
+    let slide1, slide2, slide3, slide4;
+
     beforeAll(async () => {
         await page.goto('http://localhost:8363/demo/multiple-slides.html');
     });
 
     test('multiple visible slides', async () => {
         await expect(page).toMatchElement('.vjslider');
-        await expect(page).toMatchElement('.vjslider > .vjslider__slider');
-        await expect(page).toMatchElement('.vjslider > .vjslider__slider > .vjslider__slide');
+        await expect(page).toMatchElement('.vjslider > .vjslider__slide');
     });
 
-    test('vjslider clones', async () => {
-        await expect(page).toMatchElement('.vjslider__clone');
-        await expect(page).toMatchElement('.carousel__slide--blue.vjslider__clone');
-        await expect(page).not.toMatchElement('.carousel__slide--hidden.vjslider__clone');
-        expect(await page.$$eval('.vjslider__clone', elements => elements.length)).toBe(6);
+    test('it should not create any slide clones', async () => {
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(5);
     });
 
-    test('slider width', async () => {
-        let sliderWidth = await page.$eval('.vjslider__slider', slider => slider.style.width);
-        sliderWidth = parseFloat(sliderWidth.replace('%', ''));
-        expect(sliderWidth).toBe(550);
+    test('it should get handles to slides', async () => {
+        slide1 = await page.$('.vjslider__slide[data-id="1"]');
+        slide2 = await page.$('.vjslider__slide[data-id="2"]');
+        slide3 = await page.$('.vjslider__slide[data-id="3"]');
+        slide4 = await page.$('.vjslider__slide[data-id="4"]');
+        expect(slide1).not.toBeNull();
+        expect(slide2).not.toBeNull();
+        expect(slide3).not.toBeNull();
+        expect(slide4).not.toBeNull();
     });
 
     test('sliding forward', async () => {
-        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(sliderPosition)).toBe(-27.2727);
-        await page.click('.js-next');
-        const newSliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(newSliderPosition)).toBe(-36.3636);
+        expect(await slide1.isIntersectingViewport()).toBe(true);
+        expect(await slide2.isIntersectingViewport()).toBe(true);
+        expect(await slide3.isIntersectingViewport()).toBe(false);
+        expect(await slide4.isIntersectingViewport()).toBe(false);
+        page.click('.js-next');
+        await new Promise(resolve => setTimeout(resolve, 400));
+        expect(await slide1.isIntersectingViewport()).toBe(false);
+        expect(await slide2.isIntersectingViewport()).toBe(true);
+        expect(await slide3.isIntersectingViewport()).toBe(true);
+        expect(await slide4.isIntersectingViewport()).toBe(false);
     });
 
     test('sliding backward', async () => {
-        await page.click('.js-prev');
-        const newSliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(newSliderPosition)).toBe(-27.2727);
+        page.click('.js-prev');
+        await new Promise(resolve => setTimeout(resolve, 400));
+        expect(await slide1.isIntersectingViewport()).toBe(true);
+        expect(await slide2.isIntersectingViewport()).toBe(true);
+        expect(await slide3.isIntersectingViewport()).toBe(false);
+        expect(await slide4.isIntersectingViewport()).toBe(false);
     });
 
     test('reloading', async () => {
         await page.click('.js-reload');
-        expect(await page.$$eval('.vjslider__clone', elements => elements.length)).toBe(14);
-        let sliderWidth = await page.$eval('.vjslider__slider', slider => slider.style.width);
-        sliderWidth = parseFloat(sliderWidth.replace('%', ''));
-        expect(sliderWidth).toBe(333.333);
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(12);
     });
 });

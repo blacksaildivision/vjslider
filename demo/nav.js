@@ -56,12 +56,4 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
-
-    if(document.querySelector('.js-show') !== null){
-        document.querySelector('.js-show').addEventListener('click', function (event) {
-            event.preventDefault();
-            // Remove hidden class
-            document.querySelector('.slider-container').classList.remove('slider-container--hidden');
-        });
-    }
 });
