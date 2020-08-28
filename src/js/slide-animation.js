@@ -47,7 +47,7 @@ class SlideAnimation {
 
     /**
      * Check if animation has ended or it's still running
-     * @return {bool}
+     * @return {boolean}
      */
     hasEnded() {
         return !this.isAnimating;
