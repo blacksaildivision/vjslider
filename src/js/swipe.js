@@ -1,7 +1,7 @@
 /**
  * Helper class for detecting left and right swipes
  */
-class Swipe {
+export default class Swipe {
 
     /**
      * Swipe constructor
@@ -29,10 +29,10 @@ class Swipe {
      */
     init() {
         const options = this._getEventListenerOptions();
-        this.element.addEventListener("touchstart", this.pointerDownCallback, options);
-        this.element.addEventListener("mousedown", this.pointerDownCallback);
-        this.element.addEventListener("touchend", this.pointerUpCallback, options);
-        this.element.addEventListener("mouseup", this.pointerUpCallback);
+        this.element.addEventListener('touchstart', this.pointerDownCallback, options);
+        this.element.addEventListener('mousedown', this.pointerDownCallback);
+        this.element.addEventListener('touchend', this.pointerUpCallback, options);
+        this.element.addEventListener('mouseup', this.pointerUpCallback);
     }
 
     /**
@@ -40,10 +40,10 @@ class Swipe {
      */
     destroy() {
         const options = this._getEventListenerOptions();
-        this.element.removeEventListener("touchstart", this.pointerDownCallback, options);
-        this.element.removeEventListener("mousedown", this.pointerDownCallback);
-        this.element.removeEventListener("touchend", this.pointerUpCallback, options);
-        this.element.removeEventListener("mouseup", this.pointerUpCallback);
+        this.element.removeEventListener('touchstart', this.pointerDownCallback, options);
+        this.element.removeEventListener('mousedown', this.pointerDownCallback);
+        this.element.removeEventListener('touchend', this.pointerUpCallback, options);
+        this.element.removeEventListener('mouseup', this.pointerUpCallback);
     }
 
     /**
@@ -101,8 +101,8 @@ class Swipe {
     _getPassiveSupport() {
         let supported = false;
         try {
-            window.addEventListener("passiveTest", null,
-                Object.defineProperty({}, "passive", {
+            window.addEventListener('passiveTest', null,
+                Object.defineProperty({}, 'passive', {
                     get: function () { // eslint-disable-line getter-return
                         supported = true;
                     }
@@ -128,6 +128,3 @@ class Swipe {
         return false;
     }
 }
-
-
-module.exports = Swipe;

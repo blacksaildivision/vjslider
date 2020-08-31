@@ -9,6 +9,7 @@ module.exports = (env, argv) => {
             path: path.resolve(__dirname, 'dist'),
             filename: 'vjslider.js',
             libraryTarget: 'var',
+            libraryExport: 'default',
             library: 'VJSlider'
         },
         module: {

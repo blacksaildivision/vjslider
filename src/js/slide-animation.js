@@ -1,7 +1,7 @@
 /**
  * Helper class for detecting when animation start and stops
  */
-class SlideAnimation {
+export default class SlideAnimation {
 
     /**
      * SlideAnimation constructor
@@ -47,7 +47,7 @@ class SlideAnimation {
 
     /**
      * Check if animation has ended or it's still running
-     * @return {bool}
+     * @return {boolean}
      */
     hasEnded() {
         return !this.isAnimating;
@@ -58,10 +58,10 @@ class SlideAnimation {
      */
     _startEvents() {
         return [
-            "MSTransitionStart",
-            "msTransitionStart",
-            "transitionstart",
-            "webkitTransitionStart"
+            'MSTransitionStart',
+            'msTransitionStart',
+            'transitionstart',
+            'webkitTransitionStart'
         ];
     }
 
@@ -70,12 +70,10 @@ class SlideAnimation {
      */
     _endEvents() {
         return [
-            "MSTransitionEnd",
-            "msTransitionEnd",
-            "transitionend",
-            "webkitTransitionEnd"
+            'MSTransitionEnd',
+            'msTransitionEnd',
+            'transitionend',
+            'webkitTransitionEnd'
         ];
     }
 }
-
-module.exports = SlideAnimation;

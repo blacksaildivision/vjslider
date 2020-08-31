@@ -1,39 +1,54 @@
 describe('Demo page', () => {
+
+    let slide1, slide2, slide3;
+
     beforeAll(async () => {
         await page.goto('http://localhost:8363/demo');
     });
 
     test('vjslider general markup', async () => {
         await expect(page).toMatchElement('.vjslider');
-        await expect(page).toMatchElement('.vjslider > .vjslider__slider');
-        await expect(page).toMatchElement('.vjslider > .vjslider__slider > .vjslider__slide');
-        let sliderWidth = await page.$eval('.vjslider__slider', slider => slider.style.width);
-        sliderWidth = parseFloat(sliderWidth.replace('%', ''));
-        expect(sliderWidth).toBe(900);
+        await expect(page).toMatchElement('.vjslider > .vjslider__slide');
     });
 
-    test('vjslider clones', async () => {
-        await expect(page).toMatchElement('.vjslider__clone');
-        await expect(page).toMatchElement('.carousel__slide--blue.vjslider__clone');
-        await expect(page).toMatchElement('.carousel__slide--purple.vjslider__clone');
-        await expect(page).toMatchElement('.carousel__slide--pink.vjslider__clone');
-        await expect(page).toMatchElement('.carousel__slide--green.vjslider__clone');
-        await expect(page).not.toMatchElement('.carousel__slide--hidden.vjslider__clone');
-        expect(await page.$$eval('.vjslider__clone', elements => elements.length)).toBe(4);
+    test('it should get handles to slides', async () => {
+        slide1 = await page.$('.vjslider__slide[data-id="1"]');
+        slide2 = await page.$('.vjslider__slide[data-id="2"]');
+        slide3 = await page.$('.vjslider__slide[data-id="3"]');
+        expect(slide1).not.toBeNull();
+        expect(slide2).not.toBeNull();
+        expect(slide3).not.toBeNull();
+    });
+
+    test('it should not create any slide clones', async () => {
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(5);
     });
 
     test('sliding forward', async () => {
-        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(sliderPosition)).toBe(-22.2222);
-        await page.click('.js-next');
-        const newSliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(newSliderPosition)).toBe(-33.3333);
+        expect(await slide1.isIntersectingViewport()).toBe(true);
+        expect(await slide2.isIntersectingViewport()).toBe(false);
+        expect(await slide3.isIntersectingViewport()).toBe(false);
+        page.click('.js-next');
+        await new Promise(resolve => setTimeout(resolve, 400));
+        expect(await slide1.isIntersectingViewport()).toBe(false);
+        expect(await slide2.isIntersectingViewport()).toBe(true);
+        expect(await slide3.isIntersectingViewport()).toBe(false);
+    });
+
+    test('sliding forward again', async () => {
+        page.click('.js-next');
+        await new Promise(resolve => setTimeout(resolve, 400));
+        expect(await slide1.isIntersectingViewport()).toBe(false);
+        expect(await slide2.isIntersectingViewport()).toBe(false);
+        expect(await slide3.isIntersectingViewport()).toBe(true);
     });
 
     test('sliding backward', async () => {
-        await page.click('.js-prev');
-        const newSliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(newSliderPosition)).toBe(-22.2222);
+        page.click('.js-prev');
+        await new Promise(resolve => setTimeout(resolve, 400));
+        expect(await slide1.isIntersectingViewport()).toBe(false);
+        expect(await slide2.isIntersectingViewport()).toBe(true);
+        expect(await slide3.isIntersectingViewport()).toBe(false);
     });
 
     test('swiping left with to small movement', async () => {
@@ -41,8 +56,9 @@ describe('Demo page', () => {
         await page.mouse.down();
         await page.mouse.move(250, 300);
         await page.mouse.up();
-        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(sliderPosition)).toBe(-22.2222);
+        expect(await slide1.isIntersectingViewport()).toBe(false);
+        expect(await slide2.isIntersectingViewport()).toBe(true);
+        expect(await slide3.isIntersectingViewport()).toBe(false);
     });
 
     test('swiping left', async () => {
@@ -50,8 +66,10 @@ describe('Demo page', () => {
         await page.mouse.down();
         await page.mouse.move(100, 300);
         await page.mouse.up();
-        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(sliderPosition)).toBe(-33.3333);
+        await new Promise(resolve => setTimeout(resolve, 400));
+        expect(await slide1.isIntersectingViewport()).toBe(false);
+        expect(await slide2.isIntersectingViewport()).toBe(false);
+        expect(await slide3.isIntersectingViewport()).toBe(true);
     });
 
     test('swiping right with to small movement', async () => {
@@ -59,8 +77,9 @@ describe('Demo page', () => {
         await page.mouse.down();
         await page.mouse.move(350, 300);
         await page.mouse.up();
-        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(sliderPosition)).toBe(-33.3333);
+        expect(await slide1.isIntersectingViewport()).toBe(false);
+        expect(await slide2.isIntersectingViewport()).toBe(false);
+        expect(await slide3.isIntersectingViewport()).toBe(true);
     });
 
     test('swiping right', async () => {
@@ -68,28 +87,28 @@ describe('Demo page', () => {
         await page.mouse.down();
         await page.mouse.move(500, 300);
         await page.mouse.up();
-        const sliderPosition = await page.$eval('.vjslider__slider', slider => slider.style.transform.match(/translate3d\((-?\d+[.]\d+)/)[1]);
-        expect(parseFloat(sliderPosition)).toBe(-22.2222);
+        await new Promise(resolve => setTimeout(resolve, 400));
+        expect(await slide1.isIntersectingViewport()).toBe(false);
+        expect(await slide2.isIntersectingViewport()).toBe(true);
+        expect(await slide3.isIntersectingViewport()).toBe(false);
     });
 
     test('reloading', async () => {
         await page.click('.js-reload');
-        expect(await page.$$eval('.vjslider__clone', elements => elements.length)).toBe(6);
-        let sliderWidth = await page.$eval('.vjslider__slider', slider => slider.style.width);
-        sliderWidth = parseFloat(sliderWidth.replace('%', ''));
-        expect(sliderWidth).toBe(600);
+        await expect(page).toMatchElement('.vjslider');
+        await expect(page).toMatchElement('.vjslider > .vjslider__slide');
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(6);
+        expect(await slide1.isIntersectingViewport()).toBe(true);
+        expect(await slide2.isIntersectingViewport()).toBe(true);
     });
 
     test('destroying vjslider', async () => {
         await page.click('.js-destroy');
         await expect(page).not.toMatchElement('.vjslider');
         await expect(page).toMatchElement('.carousel');
-        await expect(page).not.toMatchElement('.vjslider__slider');
-        await expect(page).not.toMatchElement('.vjslider__slider--animate');
-        await expect(page).not.toMatchElement('.carousel[style*=""]');
-        await expect(page).not.toMatchElement('.vjslider__clone');
-        await expect(page).toMatchElement('.carousel__slide');
         await expect(page).not.toMatchElement('.vjslider__slide');
+        await expect(page).not.toMatchElement('.vjslider__slide--no-animate');
+        await expect(page).toMatchElement('.carousel__slide');
         await expect(page).not.toMatchElement('.carousel__slide[style*=""]');
     });
 });

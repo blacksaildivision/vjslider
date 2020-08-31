@@ -5,7 +5,8 @@ vjslider is:
  - infinite
  - responsive
  - touch friendly
- - tiny 2.55kB gzipped
+ - no dependencies
+ - tiny 2.92kB gzipped
  - written in ES6
  - powered by WebPack
  - tested with Jest and Puppeteer
@@ -60,11 +61,6 @@ You can use following options:
 `touchFriendly` (_default: true_) - make slider touch friendly by detecting left and right swipes with mouse and touch devices
 
 `waitForAnimationEnd` (_default: true_) - wait for animation slide end of slides change before it is possible to switch to next slide
-
-Changelog
----------
-
-You can view VJSlider changelog on [GitHub Wiki page](https://github.com/blacksaildivision/vjslider/wiki/Changelog). 
 
 Development
 -----------
