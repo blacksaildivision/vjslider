@@ -1,1 +1,1 @@
-.vjslider{width:100%;overflow:hidden}.vjslider__slider{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;transition:none}.vjslider__slider--animate{transition:transform .3s}.vjslider__slide{width:100%}
+.vjslider{width:100%;display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;overflow:hidden}.vjslider__slide{min-width:100%;transition:transform .3s}.vjslider__slide--no-animate{transition:none}
