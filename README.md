@@ -62,11 +62,6 @@ You can use following options:
 
 `waitForAnimationEnd` (_default: true_) - wait for animation slide end of slides change before it is possible to switch to next slide
 
-Changelog
----------
-
-You can view VJSlider changelog on [GitHub Wiki page](https://github.com/blacksaildivision/vjslider/wiki/Changelog). 
-
 Development
 -----------
 vjslider is build with WebPack and Gulp. 
