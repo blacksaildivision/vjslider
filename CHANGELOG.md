@@ -26,3 +26,9 @@ now the structure is:
 * Update all dependencies
 
 * Remove redundant test after rewriting the slider
+
+* Change quotes from `"` to `'`
+
+* Add `.idea` directory to .gitignore file to slim npm package
+
+* Add changelog file to repository 
