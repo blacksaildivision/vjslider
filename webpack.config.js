@@ -62,5 +62,5 @@ module.exports = (env, argv) => {
             port: 8363,
             publicPath: '/dist'
         }
-    }
+    };
 };
