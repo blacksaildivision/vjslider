@@ -1,5 +1,13 @@
 # Changelog
 
+### 2.0.1
+
+* Change node-sass to dart-sass
+  
+* Update from Webpack 4 to Webpack 5
+  
+* Update all other packages to the latest version
+
 ### 2.0.0
 
 * Remove additional wrapper from the slider. Previously the structure was:

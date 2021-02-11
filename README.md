@@ -6,7 +6,7 @@ vjslider is:
  - responsive
  - touch friendly
  - no dependencies
- - tiny 2.92kB gzipped
+ - tiny 2.71kB gzipped
  - written in ES6
  - powered by WebPack
  - tested with Jest and Puppeteer
