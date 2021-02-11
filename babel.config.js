@@ -1,5 +1,7 @@
 module.exports = (api) => {
-    let targets = {};
+    let targets = {
+        browsers: '> 1%, IE 11, not dead',
+    };
     if (api.env() === 'test') {
         targets = {node: 'current'};
     }
