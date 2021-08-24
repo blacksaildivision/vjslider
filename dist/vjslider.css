@@ -1,1 +1,1 @@
-.vjslider{width:100%;display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;overflow:hidden}.vjslider__slide{min-width:100%;transition:transform .3s}.vjslider__slide--no-animate{transition:none}
+.vjslider{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;overflow:hidden;width:100%}.vjslider__slide{min-width:100%;transition:transform .3s}.vjslider__slide--no-animate{transition:none}
