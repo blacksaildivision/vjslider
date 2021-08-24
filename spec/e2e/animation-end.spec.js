@@ -1,14 +1,22 @@
+import puppeteer from 'puppeteer';
+
 describe('Wait for animation end', () => {
-
+    let browser, page;
     let slide1, slide2, slide3;
-
     beforeAll(async () => {
+        browser = await puppeteer.launch();
+        page = await browser.newPage();
         await page.goto('http://localhost:8363/demo/animation-end.html');
     });
 
+    afterAll(async () => {
+        await page.close();
+        await browser.close();
+    });
+
     test('vjslider must be constructed', async () => {
-        await expect(page).toMatchElement('.vjslider');
-        await expect(page).toMatchElement('.vjslider > .vjslider__slide');
+        expect(await page.$('.vjslider')).not.toBeNull();
+        expect(await page.$('.vjslider > .vjslider__slide')).not.toBeNull();
     });
 
     test('it should get handles to slides', async () => {

@@ -1,14 +1,27 @@
-describe('Demo page', () => {
+import puppeteer from 'puppeteer';
 
+describe('Demo page', () => {
+    let browser, page;
     let slide1, slide2, slide3;
+
+    beforeAll(async () => {
+        browser = await puppeteer.launch();
+        page = await browser.newPage();
+        await page.goto('http://localhost:8363/demo');
+    });
+
+    afterAll(async () => {
+        await page.close();
+        await browser.close();
+    });
 
     beforeAll(async () => {
         await page.goto('http://localhost:8363/demo');
     });
 
     test('vjslider general markup', async () => {
-        await expect(page).toMatchElement('.vjslider');
-        await expect(page).toMatchElement('.vjslider > .vjslider__slide');
+        expect(await page.$('.vjslider')).not.toBeNull();
+        expect(await page.$('.vjslider > .vjslider__slide')).not.toBeNull();
     });
 
     test('it should get handles to slides', async () => {
@@ -95,8 +108,8 @@ describe('Demo page', () => {
 
     test('reloading', async () => {
         await page.click('.js-reload');
-        await expect(page).toMatchElement('.vjslider');
-        await expect(page).toMatchElement('.vjslider > .vjslider__slide');
+        expect(await page.$('.vjslider')).not.toBeNull();
+        expect(await page.$('.vjslider > .vjslider__slide')).not.toBeNull();
         expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(6);
         expect(await slide1.isIntersectingViewport()).toBe(true);
         expect(await slide2.isIntersectingViewport()).toBe(true);
@@ -104,11 +117,11 @@ describe('Demo page', () => {
 
     test('destroying vjslider', async () => {
         await page.click('.js-destroy');
-        await expect(page).not.toMatchElement('.vjslider');
-        await expect(page).toMatchElement('.carousel');
-        await expect(page).not.toMatchElement('.vjslider__slide');
-        await expect(page).not.toMatchElement('.vjslider__slide--no-animate');
-        await expect(page).toMatchElement('.carousel__slide');
-        await expect(page).not.toMatchElement('.carousel__slide[style*=""]');
+        expect(await page.$('.vjslider')).toBeNull();
+        expect(await page.$('.carousel')).not.toBeNull();
+        expect(await page.$('.vjslider__slide')).toBeNull();
+        expect(await page.$('.vjslider__slide--no-animate')).toBeNull();
+        expect(await page.$('.carousel__slide')).not.toBeNull();
+        expect(await page.$('.carousel__slide[style*=""]')).toBeNull();
     });
 });

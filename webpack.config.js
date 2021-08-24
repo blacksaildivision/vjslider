@@ -1,6 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = (env, argv) => {
     return {
@@ -47,20 +47,26 @@ module.exports = (env, argv) => {
 
             ],
         },
+        optimization: {
+            minimizer: [
+                `...`,
+                new CssMinimizerPlugin()
+            ]
+        },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: 'vjslider.css'
             }),
-            new OptimizeCssAssetsPlugin({
-                cssProcessor: require('cssnano'),
-                cssProcessorPluginOptions: {
-                    preset: ['default', {discardComments: {removeAll: true}}],
-                },
-            })
         ],
         devServer: {
             port: 8363,
-            publicPath: '/dist'
+            host: '127.0.0.1',
+            static: {
+                directory: __dirname,
+            },
+            devMiddleware: {
+                publicPath: '/dist'
+            }
         }
     };
 };
