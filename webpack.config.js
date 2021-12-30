@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = (env, argv) => {
     return {
@@ -18,8 +19,7 @@ module.exports = (env, argv) => {
                     test: /\.js$/,
                     exclude: /node_modules/,
                     use: [
-                        'babel-loader',
-                        'eslint-loader'
+                        'babel-loader'
                     ]
                 },
                 {
@@ -57,6 +57,7 @@ module.exports = (env, argv) => {
             new MiniCssExtractPlugin({
                 filename: 'vjslider.css'
             }),
+            new ESLintPlugin()
         ],
         devServer: {
             port: 8363,
