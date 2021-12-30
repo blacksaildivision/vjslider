@@ -1,5 +1,10 @@
 # Changelog
 
+### 2.0.3
+
+* Replace deprecated `eslint-loader` with the `eslint-webpack-plugin`.
+* Update all other packages to the latest versions.
+
 ### 2.0.2
 
 * Replace deprecated `optimize-css-assets-webpack-plugin` with `css-minimizer-webpack-plugin`.
