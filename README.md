@@ -15,10 +15,12 @@ How to use?
 -----------
 HTML markup: 
 ```html
-<div class="carousel">
-    <div>Slide 1</div>
-    <div>Slide 2</div>
-    <div>Slide 3</div>
+<div class="vjslider">
+    <div class="vjslider__slider">
+        <div class="vjslider__slide">Slide 1</div>
+        <div class="vjslider__slide">Slide 2</div>
+        <div class="vjslider__slide">Slide 3</div>
+    </div>
 </div>
 ```
 
@@ -35,8 +37,8 @@ Include vjslider library:
 Run slider:
 ```js
 // Init slider
-var options = {};
-var slider = new VJSlider(document.querySelector(".carousel"), options);
+const options = {};
+const slider = new VJSlider(document.querySelector('.vjslider'), options);
 
 // You can manually change slides by using next() and prev() functions:
 //slider.next();
@@ -64,7 +66,7 @@ You can use following options:
 
 Development
 -----------
-vjslider is build with WebPack and Gulp. 
+vjslider is build with WebPack. 
 WebPack is responsible for building and linting JS files, building CSS from Sass files. If you need pure ES6 version, use script from ./src directory.
 
 Install dependencies, webpack and run local server

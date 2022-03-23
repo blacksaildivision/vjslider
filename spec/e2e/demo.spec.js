@@ -19,11 +19,6 @@ describe('Demo page', () => {
         await page.goto('http://localhost:8363/demo');
     });
 
-    test('vjslider general markup', async () => {
-        expect(await page.$('.vjslider')).not.toBeNull();
-        expect(await page.$('.vjslider > .vjslider__slide')).not.toBeNull();
-    });
-
     test('it should get handles to slides', async () => {
         slide1 = await page.$('.vjslider__slide[data-id="1"]');
         slide2 = await page.$('.vjslider__slide[data-id="2"]');
@@ -41,24 +36,30 @@ describe('Demo page', () => {
         expect(await slide1.isIntersectingViewport()).toBe(true);
         expect(await slide2.isIntersectingViewport()).toBe(false);
         expect(await slide3.isIntersectingViewport()).toBe(false);
-        page.click('.js-next');
-        await new Promise(resolve => setTimeout(resolve, 400));
+        await Promise.all([
+            page.click('[data-next]'),
+            new Promise(resolve => setTimeout(resolve, 400))
+        ]);
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(true);
         expect(await slide3.isIntersectingViewport()).toBe(false);
     });
 
     test('sliding forward again', async () => {
-        page.click('.js-next');
-        await new Promise(resolve => setTimeout(resolve, 400));
+        await Promise.all([
+            page.click('[data-next]'),
+            new Promise(resolve => setTimeout(resolve, 400))
+        ]);
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(false);
         expect(await slide3.isIntersectingViewport()).toBe(true);
     });
 
     test('sliding backward', async () => {
-        page.click('.js-prev');
-        await new Promise(resolve => setTimeout(resolve, 400));
+        await Promise.all([
+            page.click('[data-prev]'),
+            new Promise(resolve => setTimeout(resolve, 400))
+        ]);
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(true);
         expect(await slide3.isIntersectingViewport()).toBe(false);
@@ -107,21 +108,19 @@ describe('Demo page', () => {
     });
 
     test('reloading', async () => {
-        await page.click('.js-reload');
-        expect(await page.$('.vjslider')).not.toBeNull();
-        expect(await page.$('.vjslider > .vjslider__slide')).not.toBeNull();
+        await Promise.all([
+            page.click('[data-reload]'),
+            new Promise(resolve => setTimeout(resolve, 400))
+        ]);
         expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(6);
         expect(await slide1.isIntersectingViewport()).toBe(true);
         expect(await slide2.isIntersectingViewport()).toBe(true);
     });
 
     test('destroying vjslider', async () => {
-        await page.click('.js-destroy');
-        expect(await page.$('.vjslider')).toBeNull();
-        expect(await page.$('.carousel')).not.toBeNull();
-        expect(await page.$('.vjslider__slide')).toBeNull();
+        await page.click('[data-destroy]');
         expect(await page.$('.vjslider__slide--no-animate')).toBeNull();
-        expect(await page.$('.carousel__slide')).not.toBeNull();
-        expect(await page.$('.carousel__slide[style*=""]')).toBeNull();
+        expect(await page.$('.vjslider__slider[style*=""]')).toBeNull();
+        expect(await page.$('.vjslider__slide[style*=""]')).toBeNull();
     });
 });

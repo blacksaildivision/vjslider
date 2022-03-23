@@ -2,58 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>vjslider demo for animation end</title>
     <link href="demo.css" rel="stylesheet">
     <link href="../dist/vjslider.css" rel="stylesheet">
 </head>
 <body>
-<main>
-    <h1>This is slider demo</h1>
-    <hr>
-    <div class="carousel">
-        <div class="carousel__slide carousel__slide--blue" data-id="1">
-            <p>Slide 1</p>
-        </div>
-        <div class="carousel__slide carousel__slide--purple carousel__slide--higher" data-id="2">
-            <p>Slide 2</p>
-        </div>
-        <div class="carousel__slide carousel__slide--orange" data-id="3">
-            <p>Slide 3</p>
-        </div>
-        <div class="carousel__slide carousel__slide--green" data-id="4">
-            <p>Slide 4</p>
-        </div>
-        <div class="carousel__slide carousel__slide--pink" data-id="5">
-            <p>Slide 5</p>
-        </div>
-        <div class="carousel__slide carousel__slide--red carousel__slide--hidden" data-id="6">
-            <!-- This slide should not be visible because of hidden modifier -->
-            <p>Slide 6</p>
-        </div>
+<h1>Animation end slide demo</h1>
+<div class="vjslider">
+    <div class="vjslider__slider">
+        <div class="vjslider__slide" data-id="1">Slide 1</div>
+        <div class="vjslider__slide" data-id="2">Slide 2</div>
+        <div class="vjslider__slide" data-id="3">Slide 3</div>
+        <div class="vjslider__slide" data-id="4">Slide 4</div>
+        <div class="vjslider__slide" data-id="5">Slide 5</div>
+        <div hidden data-id="6">Slide 6</div>
     </div>
-    <hr>
-    <nav>
-        <ul class="menu">
-            <li class="menu__element">
-                <a href="#" class="js-prev">Prev</a>
-            </li>
-            <li class="menu__element">
-                <a href="#" class="js-next">Next</a>
-            </li>
-            <li class="menu__element">
-                <a href="#" class="js-start-loop">Start loop</a>
-            </li>
-            <li class="menu__element">
-                <a href="#" class="js-stop-loop">Stop loop</a>
-            </li>
-            <li class="menu__element">
-                <a href="#" class="js-reload" data-number-of-slides="1" data-wait-for-animation-end="true">Reload with new options</a>
-            </li>
-        </ul>
-    </nav>
-</main>
+</div>
+<nav>
+    <button data-prev>Prev</button>
+    <button data-next>Next</button>
+    <button data-start-loop>Start loop</button>
+    <button data-stop-loop>Stop loop</button>
+    <button data-destroy>Destroy</button>
+    <button data-reload data-number-of-slides="1">Reload with new options</button>
+</nav>
 <script src="../dist/vjslider.js"></script>
-<script>var sliderOptions = {waitForAnimationEnd: false};</script>
+<script>const sliderOptions = {waitForAnimationEnd: false};</script>
 <script src="nav.js"></script>
 </body>
 </html>

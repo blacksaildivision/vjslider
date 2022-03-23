@@ -5,8 +5,15 @@ import Swipe from './swipe';
 import SlideAnimation from './slide-animation';
 
 export default class VJSlider {
-    constructor(sliderElement, sliderOptions = {}) {
-        this.sliderElement = sliderElement;
+
+    /**
+     * VJSlider constructor
+     *
+     * @param {HTMLElement} slider
+     * @param {object} sliderOptions
+     */
+    constructor(slider, sliderOptions = {}) {
+        this.sliderEl = slider.querySelector('.vjslider__slider');
         this.init(sliderOptions);
     }
 
@@ -17,10 +24,7 @@ export default class VJSlider {
      */
     init(sliderOptions) {
         // Convert DOM elements to array for easier access from JS
-        // Remove all invisible slides - (display: none;) to avoid empty spacing
-        this.slides = Array.prototype.slice.call(this.sliderElement.children).filter((slide) => {
-            return window.getComputedStyle(slide).display !== 'none';
-        });
+        this.slides = [...this.sliderEl.querySelectorAll('.vjslider__slide')];
 
         // Make sure that there are some slides inside the slider
         if (this.slides.length === 0) {
@@ -29,23 +33,21 @@ export default class VJSlider {
 
         // Parse options
         this.options = this._getOptions(sliderOptions);
+        console.log(this.options);
 
         // Clone slides if it's necessary
-        this.clones = new Clones(this.sliderElement);
+        this.clones = new Clones(this.sliderEl);
         this.slides = this.clones.clone(this.slides, this.options.numberOfVisibleSlides);
-
-        // Add classes to elements
-        this._addClasses();
 
         // Attach swipe actions to slider
         if (this.options.touchFriendly === true) {
-            this.swipe = new Swipe(this.sliderElement, () => this.prev(), () => this.next());
+            this.swipe = new Swipe(this.sliderEl, () => this.prev(), () => this.next());
             this.swipe.init();
         }
 
         // Attach waiting for animation end
         if (this.options.waitForAnimationEnd === true) {
-            this.slideAnimation = new SlideAnimation(this.sliderElement);
+            this.slideAnimation = new SlideAnimation(this.sliderEl);
         }
 
         // Add ability to slide slides
@@ -77,18 +79,14 @@ export default class VJSlider {
      * @returns {VJSlider}
      */
     destroy() {
-        // Remove class from slider element
-        this.sliderElement.classList.remove('vjslider');
-
         // Remove style attribute
-        this.sliderElement.removeAttribute('style');
+        this.sliderEl.removeAttribute('style');
 
         // Remove clones
         this.clones.remove();
 
         // Remove classes and attributes from slides
         this.slides.forEach((slide) => {
-            slide.classList.remove('vjslider__slide');
             slide.removeAttribute('style');
         });
 
@@ -115,20 +113,6 @@ export default class VJSlider {
         // If alternative options are used, replace old one. Otherwise use current options.
         const options = (alternativeOptions !== null) ? alternativeOptions : this.options;
         this.destroy().init(options);
-    }
-
-    /**
-     * Add necessary classes to DOM elements
-     * @private
-     */
-    _addClasses() {
-        // Add slider class to main elements
-        this.sliderElement.classList.add('vjslider');
-
-        // Add slide class each slide
-        this.slides.forEach((slide) => {
-            slide.classList.add('vjslider__slide');
-        });
     }
 
     /**
