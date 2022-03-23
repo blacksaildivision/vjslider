@@ -14,12 +14,7 @@ describe('Wait for animation end', () => {
         await browser.close();
     });
 
-    test('vjslider must be constructed', async () => {
-        expect(await page.$('.vjslider')).not.toBeNull();
-        expect(await page.$('.vjslider > .vjslider__slide')).not.toBeNull();
-    });
-
-    test('it should get handles to slides', async () => {
+    test('slides should exist', async () => {
         slide1 = await page.$('.vjslider__slide[data-id="1"]');
         slide2 = await page.$('.vjslider__slide[data-id="2"]');
         slide3 = await page.$('.vjslider__slide[data-id="3"]');
@@ -32,9 +27,8 @@ describe('Wait for animation end', () => {
         expect(await slide1.isIntersectingViewport()).toBe(true);
         expect(await slide2.isIntersectingViewport()).toBe(false);
         expect(await slide3.isIntersectingViewport()).toBe(false);
-        page.click('.js-next');
-        await new Promise(resolve => setTimeout(resolve, 200));
-        page.click('.js-next');
+        await page.click('[data-next]');
+        await page.click('[data-next]');
         await new Promise(resolve => setTimeout(resolve, 400));
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(false);
@@ -42,13 +36,15 @@ describe('Wait for animation end', () => {
     });
 
     test('sliding forward when waitForAnimationEnd is set to true', async () => {
-        await page.click('.js-reload');
+        await Promise.all([
+            page.click('[data-reload]'),
+            new Promise(resolve => setTimeout(resolve, 400))
+        ])
         expect(await slide1.isIntersectingViewport()).toBe(true);
         expect(await slide2.isIntersectingViewport()).toBe(false);
         expect(await slide3.isIntersectingViewport()).toBe(false);
-        page.click('.js-next');
-        await new Promise(resolve => setTimeout(resolve, 200));
-        page.click('.js-next');
+        await page.click('[data-next]');
+        await page.click('[data-next]');
         await new Promise(resolve => setTimeout(resolve, 400));
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(true);

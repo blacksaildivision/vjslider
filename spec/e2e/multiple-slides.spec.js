@@ -15,13 +15,8 @@ describe('Multiple slides', () => {
         await browser.close();
     });
 
-    test('multiple visible slides', async () => {
-        expect(await page.$('.vjslider')).not.toBeNull();
-        expect(await page.$('.vjslider > .vjslider__slide')).not.toBeNull();
-    });
-
     test('it should not create any slide clones', async () => {
-        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(5);
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(10);
     });
 
     test('it should get handles to slides', async () => {
@@ -40,8 +35,10 @@ describe('Multiple slides', () => {
         expect(await slide2.isIntersectingViewport()).toBe(true);
         expect(await slide3.isIntersectingViewport()).toBe(false);
         expect(await slide4.isIntersectingViewport()).toBe(false);
-        page.click('.js-next');
-        await new Promise(resolve => setTimeout(resolve, 400));
+        await Promise.all([
+            page.click('[data-next]'),
+            new Promise(resolve => setTimeout(resolve, 400))
+        ]);
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(true);
         expect(await slide3.isIntersectingViewport()).toBe(true);
@@ -49,8 +46,10 @@ describe('Multiple slides', () => {
     });
 
     test('sliding backward', async () => {
-        page.click('.js-prev');
-        await new Promise(resolve => setTimeout(resolve, 400));
+        await Promise.all([
+            page.click('[data-prev]'),
+            new Promise(resolve => setTimeout(resolve, 400))
+        ]);
         expect(await slide1.isIntersectingViewport()).toBe(true);
         expect(await slide2.isIntersectingViewport()).toBe(true);
         expect(await slide3.isIntersectingViewport()).toBe(false);
@@ -58,7 +57,10 @@ describe('Multiple slides', () => {
     });
 
     test('reloading', async () => {
-        await page.click('.js-reload');
-        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(12);
+        await Promise.all([
+            page.click('[data-reload]'),
+            new Promise(resolve => setTimeout(resolve, 400))
+        ]);
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(11);
     });
 });

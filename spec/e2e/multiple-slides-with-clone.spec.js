@@ -13,11 +13,6 @@ describe('Multiple slides with clone', () => {
         await browser.close();
     });
 
-    test('single slide markup', async () => {
-        expect(await page.$('.vjslider')).not.toBeNull();
-        expect(await page.$('.vjslider > .vjslider__slide')).not.toBeNull();
-    });
-
     test('vjslider clones', async () => {
         expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(15);
     });
