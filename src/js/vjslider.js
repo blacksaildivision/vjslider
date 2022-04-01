@@ -36,13 +36,10 @@ export default class VJSlider { // eslint-disable-line no-unused-vars
         this.slides = this.clones.clone(this.slides, this.options.numberOfVisibleSlides);
 
         // Prepare the slider itself
-        this.slider = new Slider(this.sliderEl, this.slides,  this.options.numberOfVisibleSlides);
+        this.slider = new Slider(this.sliderEl, this.slides, this.options.numberOfVisibleSlides);
 
         // Attach swipe actions to slider
-        if (this.options.touchFriendly === true) {
-            this.swipe = new Swipe(this.sliderEl, () => this.prev(), () => this.next());
-            this.swipe.init();
-        }
+        this.swipe = new Swipe(this.sliderEl, () => this.prev(), () => this.next());
     }
 
     /**
@@ -67,12 +64,7 @@ export default class VJSlider { // eslint-disable-line no-unused-vars
         // Destroy helper modules
         this.clones.destroy();
         this.slider.destroy();
-
-
-        // If swipe is attached, destroy it
-        if (this.swipe !== undefined) {
-            this.swipe.destroy();
-        }
+        this.swipe.destroy();
 
         return this;
     }
@@ -97,8 +89,7 @@ export default class VJSlider { // eslint-disable-line no-unused-vars
      */
     _getOptions(options) {
         const defaultOptions = {
-            numberOfVisibleSlides: 1,
-            touchFriendly: true,
+            numberOfVisibleSlides: 1
         };
         return Object.assign(defaultOptions, options);
     }

@@ -5,6 +5,7 @@
 * HTML structure now should be created in the browser instead in the library code. Refer to the README file for the new
   setup.
 * Optimize the slider for smoother animation without lags between the particular slides.
+* Enable swipes/mouse gestures by default.
 
 ### 2.0.3
 
