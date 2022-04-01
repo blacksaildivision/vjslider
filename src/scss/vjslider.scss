@@ -2,19 +2,19 @@
   overflow: hidden;
 
   &__slider {
-    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
+    transition: none;
+    will-change: transition;
+
+    &--animate {
+      transition: transform .3s;
+    }
   }
 
   &__slide {
-    min-width: 100%;
-    transition: transform .3s;
-
-    &--no-animate {
-      transition: none;
-    }
+    width: 100%;
   }
 }

@@ -12,6 +12,9 @@ describe('Clones', () => {
             <li data-id="1">1</li>
             <li data-id="2">2</li>
         </ul>
+        <ul class="fill-missing">
+            <li data-id="1">1</li>
+        </ul>
            `;
     const clones = new Clones(document.querySelector('.element'));
 
@@ -24,58 +27,46 @@ describe('Clones', () => {
         });
     });
 
-    describe('_getNumberOfSlides', () => {
-        test('number of slides for 1 visible slide', () => {
-            expect(clones._getNumberOfSlides(1)).toBe(3);
-        });
-
-        test('number of slides for 2 visible slide', () => {
-            expect(clones._getNumberOfSlides(2)).toBe(4);
-        });
-
-        test('number of slides for 5 visible slide', () => {
-            expect(clones._getNumberOfSlides(5)).toBe(7);
-        });
-    });
-
     describe('_cloneNodes', () => {
         const cloningNodes = new Clones(document.querySelector('.cloning-nodes'));
-        const nodes = document.querySelectorAll('.cloning-nodes li');
-        cloningNodes._cloneNodes(nodes);
 
-        test('it should clone HTML elements', () => {
+        test('it should clone HTML elements and append them at the end of the slider', () => {
+            const nodes = document.querySelectorAll('.cloning-nodes li');
+            const clonedNodes = cloningNodes._cloneNodes(nodes);
+            expect(clonedNodes.length).toBe(2);
             expect(document.querySelectorAll('.cloning-nodes li').length).toBe(4);
             expect(document.querySelectorAll('.cloning-nodes li[data-id="1"]').length).toBe(2);
             expect(document.querySelectorAll('.cloning-nodes li[data-id="2"]').length).toBe(2);
+            expect(document.querySelector('.cloning-nodes li:nth-child(3)')).toBe(clonedNodes[0]);
+            expect(document.querySelector('.cloning-nodes li:nth-child(4)')).toBe(clonedNodes[1]);
+            expect(cloningNodes.clones.length).toBe(2);
         });
 
-        test('it should update the array with clones', () => {
-            expect(cloningNodes.clones.length).toBe(2);
+        test('it should clone HTML elements and prepend them at the beginning of the slider', () => {
+            const nodes = document.querySelectorAll('.cloning-nodes li:first-child');
+            const clonedNodes = cloningNodes._cloneNodes(nodes, false);
+            expect(clonedNodes.length).toBe(1);
+            expect(document.querySelectorAll('.cloning-nodes li').length).toBe(5);
+            expect(document.querySelectorAll('.cloning-nodes li[data-id="1"]').length).toBe(3);
+            expect(document.querySelectorAll('.cloning-nodes li[data-id="2"]').length).toBe(2);
+            expect(document.querySelector('.cloning-nodes li:first-child')).toBe(clonedNodes[0]);
+            expect(cloningNodes.clones.length).toBe(3);
         });
     });
 
     describe('clone', () => {
-        test('it should not clone elements if number of slides covers required amount', () => {
-            const nodes = [...document.querySelectorAll('.element li')];
-            const clonedNodes = clones.clone(nodes, 2);
-            expect(clonedNodes).toBe(nodes);
-            expect(clones.clones.length).toBe(0);
-        });
+        test('it should clone elements to provide enough slides', () => {
+            const clones = new Clones(document.querySelector('.fill-missing'));
+            const clonedElements = clones.clone([...document.querySelectorAll('.fill-missing li')], 2);
+            expect(clonedElements.length).toBe(6);
+            expect(clones.clones.length).toBe(5);
 
-        test('cloning nodes', () => {
-            const nodes = [...document.querySelectorAll('.element li')];
-            const clonedNodes = clones.clone(nodes, 4);
-            expect(clonedNodes.length).toBe(8);
-            expect(clones.clones.length).toBe(4);
-            for (let i = 1; i <= 4; i++) {
-                expect(document.querySelectorAll(`.element li[data-id="${i}"]`).length).toBe(2);
-            }
         });
     });
 
-    describe('remove', () => {
+    describe('destroy', () => {
         beforeAll(() => {
-            clones.remove();
+            clones.destroy();
         });
 
         test('removing clone DOM elements', () => {
