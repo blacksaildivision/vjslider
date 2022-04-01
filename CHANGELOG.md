@@ -6,6 +6,7 @@
   setup.
 * Optimize the slider for smoother animation without lags between the particular slides.
 * Enable swipes/mouse gestures by default.
+* Handle tabbing for focusable elements in the slider.
 
 ### 2.0.3
 
