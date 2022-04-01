@@ -79,6 +79,10 @@ button:hover {
   background-color: #44bba4;
 }
 
+.vjslider__slide a {
+  color: #fff;
+}
+
 [hidden] {
   display: none;
 }

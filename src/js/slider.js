@@ -16,6 +16,7 @@ export default class Slider {
         this.currentSlide = 1;
         this.isAnimating = false;
         this.animateClassName = 'vjslider__slider--animate';
+        this.focusableElementsSelector = 'a[href],button';
         this.animationStartEvent = this._animationStart.bind(this);
         this.animationEndEvent = this._animationEnd.bind(this);
         this._addStyles();
@@ -42,6 +43,7 @@ export default class Slider {
         // 100 * ( slide position ) / ( number of elements in slider )
         const position = 100 * (this.currentSlide + this.numberOfVisibleSlides - 1) / (this.slides.length);
         this.slider.style.transform = `translate3d(-${position}%,0,0)`;
+        this._updateTabindex();
     }
 
     /**
@@ -89,11 +91,38 @@ export default class Slider {
     }
 
     /**
+     * Add tabindex=-1 to all hidden slides with focusable elements
+     * @private
+     */
+    _updateTabindex() {
+        const visibleSlides = this.slides.slice(this.currentSlide + this.numberOfVisibleSlides - 1, this.currentSlide + 2 * this.numberOfVisibleSlides - 1);
+        const hiddenSlides = this.slides.filter(x => visibleSlides.indexOf(x) === -1);
+        visibleSlides.forEach((visibleSlide) => {
+            visibleSlide.removeAttribute('aria-hidden');
+            [].slice.call(visibleSlide.querySelectorAll(this.focusableElementsSelector)).forEach(focusableElement => {
+                focusableElement.removeAttribute('tabindex');
+            });
+        });
+        hiddenSlides.forEach((hiddenSlide) => {
+            hiddenSlide.setAttribute('aria-hidden', 'true');
+            [].slice.call(hiddenSlide.querySelectorAll(this.focusableElementsSelector)).forEach(focusableElement => {
+                focusableElement.tabIndex = -1;
+            });
+        });
+    }
+
+    /**
      * Destroy the slider
      */
     destroy() {
         // Remove classes and style attributes
-        this.slides.forEach(slide => slide.removeAttribute('style'));
+        this.slides.forEach(slide => {
+            slide.removeAttribute('style');
+            slide.removeAttribute('aria-hidden');
+            [].slice.call(slide.querySelectorAll(this.focusableElementsSelector)).forEach(focusableElement => {
+                focusableElement.removeAttribute('tabindex');
+            });
+        });
         this.slider.removeAttribute('style');
         this.slider.classList.remove(this.animateClassName);
         // Clean up variables

@@ -3,12 +3,12 @@ import Slider from './../../src/js/slider';
 describe('Slider', () => {
     document.body.innerHTML = `
         <ul class="slider">
-            <li data-id="4">4</li>
-            <li data-id="1">1</li>
-            <li data-id="2">2</li>
-            <li data-id="3">3</li>
-            <li data-id="4">4</li>
-            <li data-id="1">1</li>
+            <li data-id="4"><a href="#">4</a></li>
+            <li data-id="1"><button>1</button></li>
+            <li data-id="2"><a href="#">2</a></li>
+            <li data-id="3"><button>3</button></li>
+            <li data-id="4"><a href="#">4</a></li>
+            <li data-id="1"><button>1</button></li>
         </ul>
            `;
     const slides = [...document.querySelectorAll('.slider li')];
@@ -22,6 +22,7 @@ describe('Slider', () => {
             expect(slider).toHaveProperty('currentSlide', 1);
             expect(slider).toHaveProperty('isAnimating', false);
             expect(slider).toHaveProperty('animateClassName', 'vjslider__slider--animate');
+            expect(slider).toHaveProperty('focusableElementsSelector', 'a[href],button');
         });
     });
 
@@ -98,13 +99,34 @@ describe('Slider', () => {
         });
     });
 
+    describe('_updateTabindex', () => {
+        beforeAll(() => {
+            slider.currentSlide = 1;
+            slider._updateTabindex();
+        });
+
+        test('visible slides should not have tabindex nor aria-hidden attributes', () => {
+            expect(document.querySelector('.slider li:nth-child(3)').getAttribute('aria-hidden')).toBeNull();
+            expect(document.querySelector('.slider li:nth-child(4)').getAttribute('aria-hidden')).toBeNull();
+            expect(document.querySelector('.slider li:nth-child(3) a').getAttribute('tabindex')).toBeNull();
+            expect(document.querySelector('.slider li:nth-child(4) button').getAttribute('tabindex')).toBeNull();
+        });
+
+        test('hidden slides should have negative tabindex and aria-hidden attributes', () => {
+            expect(document.querySelectorAll('.slider li[aria-hidden="true"]').length).toBe(4);
+            expect(document.querySelectorAll('.slider li *[tabindex="-1"]').length).toBe(4);
+        });
+    });
+
     describe('destroy', () => {
         beforeAll(() => slider.destroy());
 
         test('it should clean up slides elements', () => {
             [...document.querySelectorAll('.slider li')].forEach(slide => {
                 expect(slide.hasAttribute('style')).toBe(false);
+                expect(slide.hasAttribute('aria-hidden')).toBe(false);
             });
+            expect(document.querySelectorAll('.slider li *[tabindex="-1"]').length).toBe(0);
             expect(slider.slides.length).toBe(0);
         });
 
