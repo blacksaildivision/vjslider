@@ -22,6 +22,7 @@ export default class Swipe {
         this.pointerDownCallback = this._pointerDown.bind(this);
         this.pointerUpCallback = this._pointerUp.bind(this);
         this.isPassiveSupported = this._getPassiveSupport();
+        this.init();
     }
 
     /**
