@@ -14,6 +14,6 @@ describe('Multiple slides with clone', () => {
     });
 
     test('vjslider clones', async () => {
-        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(15);
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(36);
     });
 });

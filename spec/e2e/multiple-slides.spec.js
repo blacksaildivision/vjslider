@@ -16,7 +16,7 @@ describe('Multiple slides', () => {
     });
 
     test('it should not create any slide clones', async () => {
-        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(10);
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(14);
     });
 
     test('it should get handles to slides', async () => {
@@ -61,6 +61,6 @@ describe('Multiple slides', () => {
             page.click('[data-reload]'),
             new Promise(resolve => setTimeout(resolve, 400))
         ]);
-        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(11);
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(23);
     });
 });

@@ -28,8 +28,8 @@ describe('Demo page', () => {
         expect(slide3).not.toBeNull();
     });
 
-    test('it should not create any slide clones', async () => {
-        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(5);
+    test('it should create slide clones', async () => {
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(7);
     });
 
     test('sliding forward', async () => {
@@ -37,6 +37,8 @@ describe('Demo page', () => {
         expect(await slide2.isIntersectingViewport()).toBe(false);
         expect(await slide3.isIntersectingViewport()).toBe(false);
         await Promise.all([
+            page.click('[data-next]'),
+            page.click('[data-next]'),
             page.click('[data-next]'),
             new Promise(resolve => setTimeout(resolve, 400))
         ]);
@@ -112,7 +114,7 @@ describe('Demo page', () => {
             page.click('[data-reload]'),
             new Promise(resolve => setTimeout(resolve, 400))
         ]);
-        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(6);
+        expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(10);
         expect(await slide1.isIntersectingViewport()).toBe(true);
         expect(await slide2.isIntersectingViewport()).toBe(true);
     });

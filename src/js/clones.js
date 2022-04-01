@@ -4,8 +4,8 @@
 export default class Clones {
 
     /**
-     * SlideAnimation constructor
-     * @param {Element} sliderElement - DOM element of the slider
+     * Clones constructor
+     * @param {HTMLElement} sliderElement - DOM element of the slider
      */
     constructor(sliderElement) {
         this.clones = [];
@@ -13,55 +13,50 @@ export default class Clones {
     }
 
     /**
-     * Clone elements in the slider if necessary
-     * @param {Element[]} slides
-     * @param {int} numberOfVisibleSlides
-     * @return {Element[]}
-     */
-    clone(slides, numberOfVisibleSlides) {
-        // Check if number of slides is covers number of required slides. If so, do not create any clones
-        const numberOfSlides = this._getNumberOfSlides(numberOfVisibleSlides);
-        if (slides.length >= numberOfSlides) {
-            return slides;
-        }
-
-        // Clone everything until required number of slides is reached
-        while (numberOfSlides > (slides.length + this.clones.length)) {
-            this._cloneNodes(slides);
-        }
-
-        // Concat slides with clones
-        return slides.concat(this.clones);
-    }
-
-    /**
-     * There should be at least one more additional slide on the left and right side of the number of visible slides
-     * It allows continuous scrolling
-     * @param {int} numberOfVisibleSlides
-     * @return {int}
-     * @private
-     */
-    _getNumberOfSlides(numberOfVisibleSlides) {
-        return numberOfVisibleSlides + 2;
-    }
-
-    /**
      * Clone entire list of nodes and append them into the slider
-     * @param {Element[]} nodesList
+     * @param {HTMLElement[]} nodesList
+     * @param {boolean} append
      * @private
      */
-    _cloneNodes(nodesList) {
+    _cloneNodes(nodesList, append = true) {
+        const newClones = [];
         nodesList.forEach((el) => {
             const clone = el.cloneNode(true);
-            this.sliderElement.appendChild(clone);
             this.clones.push(clone);
+            newClones.push(clone);
+            if (append === true) {
+                this.sliderElement.appendChild(clone);
+            } else {
+                this.sliderElement.insertBefore(clone, this.sliderElement.firstChild);
+            }
         });
+        return newClones;
+    }
+
+    /**
+     * Clone elements to provide infinite slider
+     * @param {HTMLElement[]} slides
+     * @param {number} numberOfVisibleSlides
+     * @return {HTMLElement[]}
+     */
+    clone(slides, numberOfVisibleSlides) {
+        // Make sure that there are enough slides available for displaying more than single slide
+        // Clone everything until required number of slides is reached
+        while (numberOfVisibleSlides > (slides.length + this.clones.length)) {
+            this._cloneNodes(slides);
+        }
+        slides = slides.concat(this.clones);
+
+        // Clone first and last elements
+        const firstClones = this._cloneNodes(slides.slice(0, numberOfVisibleSlides));
+        const lastClones = this._cloneNodes(slides.slice(-1 * numberOfVisibleSlides).reverse(), false);
+        return lastClones.concat(slides).concat(firstClones);
     }
 
     /**
      * Remove clones from element and cleanup clones array
      */
-    remove() {
+    destroy() {
         this.clones.forEach(clone => clone.remove());
         this.clones = [];
     }

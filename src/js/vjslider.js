@@ -1,77 +1,62 @@
-import './../scss/vjslider.scss';
+require('./../scss/vjslider.scss');
+import Swipe from './swipe';
 import Clones from './clones';
 import Slider from './slider';
-import Swipe from './swipe';
-import SlideAnimation from './slide-animation';
 
-export default class VJSlider {
+export default class VJSlider { // eslint-disable-line no-unused-vars
 
     /**
      * VJSlider constructor
-     *
-     * @param {HTMLElement} slider
+     * @param {HTMLElement} domElement
      * @param {object} sliderOptions
      */
-    constructor(slider, sliderOptions = {}) {
-        this.sliderEl = slider.querySelector('.vjslider__slider');
+    constructor(domElement, sliderOptions = {}) {
+        this.el = domElement;
+        this.sliderEl = this.el.querySelector('.vjslider__slider');
+        this.transitionEndCallback = null;
         this.init(sliderOptions);
     }
 
     /**
      * Build whole VJSlider
-     *
      * @param {Object} sliderOptions
      */
     init(sliderOptions) {
-        // Convert DOM elements to array for easier access from JS
-        this.slides = [...this.sliderEl.querySelectorAll('.vjslider__slide')];
-
-        // Make sure that there are some slides inside the slider
+        // Get all slides
+        this.slides = [].slice.call(this.sliderEl.querySelectorAll('.vjslider__slide'));
         if (this.slides.length === 0) {
-            throw new DOMException('Slider does not contain any children (slides)');
+            throw new DOMException('Slider does not contain any slides (.vjslider__slide)');
         }
 
         // Parse options
         this.options = this._getOptions(sliderOptions);
-        console.log(this.options);
 
-        // Clone slides if it's necessary
+        // Prepare clones for infinite slider
         this.clones = new Clones(this.sliderEl);
         this.slides = this.clones.clone(this.slides, this.options.numberOfVisibleSlides);
+
+        // Prepare the slider itself
+        this.slider = new Slider(this.sliderEl, this.slides,  this.options.numberOfVisibleSlides);
 
         // Attach swipe actions to slider
         if (this.options.touchFriendly === true) {
             this.swipe = new Swipe(this.sliderEl, () => this.prev(), () => this.next());
             this.swipe.init();
         }
-
-        // Attach waiting for animation end
-        if (this.options.waitForAnimationEnd === true) {
-            this.slideAnimation = new SlideAnimation(this.sliderEl);
-        }
-
-        // Add ability to slide slides
-        this.slider = new Slider(this.slides, this.options.numberOfVisibleSlides);
     }
 
     /**
      * Move slider to next slide
      */
     next() {
-        if (this.options.waitForAnimationEnd === true && this.slideAnimation.hasEnded() === false) {
-            return;
-        }
-        this.slider.next();
+        this.slider.move(1);
     }
 
     /**
      * Move slider to previous slide
      */
     prev() {
-        if (this.options.waitForAnimationEnd === true && this.slideAnimation.hasEnded() === false) {
-            return;
-        }
-        this.slider.prev();
+        this.slider.move(-1);
     }
 
     /**
@@ -79,25 +64,14 @@ export default class VJSlider {
      * @returns {VJSlider}
      */
     destroy() {
-        // Remove style attribute
-        this.sliderEl.removeAttribute('style');
+        // Destroy helper modules
+        this.clones.destroy();
+        this.slider.destroy();
 
-        // Remove clones
-        this.clones.remove();
-
-        // Remove classes and attributes from slides
-        this.slides.forEach((slide) => {
-            slide.removeAttribute('style');
-        });
 
         // If swipe is attached, destroy it
         if (this.swipe !== undefined) {
             this.swipe.destroy();
-        }
-
-        // If slide animation is attached, destroy it
-        if (this.slideAnimation !== undefined) {
-            this.slideAnimation.destroy();
         }
 
         return this;
@@ -110,7 +84,7 @@ export default class VJSlider {
      * @param {Object|null} alternativeOptions
      */
     reload(alternativeOptions = null) {
-        // If alternative options are used, replace old one. Otherwise use current options.
+        // If alternative options are used, replace old one. Otherwise, use current options.
         const options = (alternativeOptions !== null) ? alternativeOptions : this.options;
         this.destroy().init(options);
     }
@@ -125,9 +99,7 @@ export default class VJSlider {
         const defaultOptions = {
             numberOfVisibleSlides: 1,
             touchFriendly: true,
-            waitForAnimationEnd: true
         };
         return Object.assign(defaultOptions, options);
     }
 }
-

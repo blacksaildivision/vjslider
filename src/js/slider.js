@@ -1,156 +1,105 @@
 /**
- * Helper class for calculating slides position in slider
+ * Helper class for calculating slide positions
  */
 export default class Slider {
 
     /**
      * Slider constructor
+     * @param {HTMLElement} sliderEl
      * @param {HTMLElement[]} slides
-     * @param {int} numberOfVisibleSlides
+     * @param {number} numberOfVisibleSlides
      */
-    constructor(slides, numberOfVisibleSlides) {
-        this.noAnimateClass = 'vjslider__slide--no-animate';
+    constructor(sliderEl, slides, numberOfVisibleSlides) {
+        this.slider = sliderEl;
+        this.slides = slides;
         this.numberOfVisibleSlides = numberOfVisibleSlides;
-        this.slides = this._prepareSlides(slides);
-        this.pointer = 1;
-        this.directions = Object.freeze({
-            left: -1,
-            right: 1
-        });
+        this.currentSlide = 1;
+        this.isAnimating = false;
+        this.animateClassName = 'vjslider__slider--animate';
+        this.animationStartEvent = this._animationStart.bind(this);
+        this.animationEndEvent = this._animationEnd.bind(this);
+        this._addStyles();
+        this._updateSliderPosition();
+        this.slider.addEventListener('transitionstart', this.animationStartEvent);
+        this.slider.addEventListener('transitionend', this.animationEndEvent);
     }
 
     /**
-     * Wrap HTML elements into objects with additional attributes.
-     * x stands for the current position of the slide
-     * index is default position of slider
-     * @param {HTMLElement[]} slides
-     * @return {{el: HTMLElement, x: int, index: int}[]}
+     * Add inline styles to various elements
      * @private
      */
-    _prepareSlides(slides) {
-        let index = 0;
-        // Wrap HTML elements into object with additional data
-        const mappedSlides = slides.map((slide) => {
-            this._setMinWidth(slide);
-            return {
-                el: slide,
-                x: 0,
-                index: ++index
-            };
-        });
-
-        // Return reordered slides
-        return this._pushLastSlideToBeginning(mappedSlides);
+    _addStyles() {
+        const basis = 100 / this.numberOfVisibleSlides;
+        this.slides.forEach(slide => slide.style.flexBasis = `${basis}%`);
+        this.slider.style.width = `${this.slides.length / this.numberOfVisibleSlides * 100}%`;
     }
 
     /**
-     * Calculate slide min-width property based on number of slides that should be visible in the viewport
-     * @param {HTMLElement} slide
+     * Update slider position on the screen
      * @private
      */
-    _setMinWidth(slide) {
-        slide.style.minWidth = `${100 / this.numberOfVisibleSlides}%`;
+    _updateSliderPosition() {
+        // 100 * ( slide position ) / ( number of elements in slider )
+        const position = 100 * (this.currentSlide + this.numberOfVisibleSlides - 1) / (this.slides.length);
+        this.slider.style.transform = `translate3d(-${position}%,0,0)`;
     }
 
     /**
-     * Transition last slide to beginning of array without animation
-     * @param {{el: HTMLElement, x: int, index: int}[]} slides
-     * @return {{el: HTMLElement, x: int, index: int}[]}
+     * Handler for transitionstart event on slider element
      * @private
      */
-    _pushLastSlideToBeginning(slides) {
-        const lastSlide = slides.pop();
-        lastSlide.el.classList.add(this.noAnimateClass);
-        lastSlide.x = (-slides.length - 1) * 100;
-        lastSlide.el.style.transform = `translate3d(${lastSlide.x}%, 0, 0)`;
-        lastSlide.el.offsetHeight;
-        lastSlide.el.classList.remove(this.noAnimateClass);
-        slides.unshift(lastSlide);
-        return slides;
+    _animationStart() {
+        this.isAnimating = true;
     }
 
     /**
-     * Push slider to next slide
+     * Handler for transitionend event on slider element
+     * @private
      */
-    next() {
-        // Increment pointer so it can point to next slide
-        this.pointer += 1;
-
-        // If there is no next slide reorder slides
-        if (this.slides[this.pointer + this.numberOfVisibleSlides] === undefined) {
-
-            // Get currently displayed slide
-            const lastSlide = this.slides[this.pointer - 1 + this.numberOfVisibleSlides];
-
-            // Remove slides from the beginning of array leaving only 2 slides
-            const removedSlides = this.slides.splice(0, this.slides.length - this.numberOfVisibleSlides - 1);
-
-            let moved = 0;
-            removedSlides.forEach(removedSlide => {
-
-                // If removed slide index is greater that last slide use the same x value
-                if (removedSlide.index > lastSlide.index) {
-                    removedSlide.x = lastSlide.x;
-                    moved++;
-                } else {
-                    // Number of moved slides + current slide in viewport + number of slides visible in the viewport
-                    removedSlide.x = (moved + this.numberOfVisibleSlides + 1) * 100;
-                }
-
-                // Add class to hide transition when elements are moved
-                removedSlide.el.classList.add(this.noAnimateClass);
-            });
-
-            // Reset pointer and reorder slides
-            this.pointer = 1;
-            this.slides = [...this.slides, ...removedSlides];
+    _animationEnd() {
+        this.isAnimating = false;
+        // Move to the first slide if there are no more slides at the end of the slider (next action)
+        if (this.currentSlide > (this.slides.length - 2 * this.numberOfVisibleSlides)) {
+            this.slider.classList.remove(this.animateClassName);
+            this.currentSlide = 1;
+            this._updateSliderPosition();
         }
-
-        // Move slides to proper direction
-        this._move(this.directions.right);
-    }
-
-    /**
-     * Push slider to previous slide
-     */
-    prev() {
-        // Decrement pointer so it can point to previous slide
-        this.pointer -= 1;
-
-        // If there is no previous slide
-        if (this.slides[this.pointer - 1] === undefined) {
-            // Remove all slides but the slides from the end of the number of visible slides + 1
-            const removedSlides = this.slides.splice(this.pointer + this.numberOfVisibleSlides + 1);
-
-            // Calculate position of moved slides
-            removedSlides.reverse().forEach(removedSlide => {
-                removedSlide.x -= (100 * (this.numberOfVisibleSlides + removedSlides.length + 1));
-                removedSlide.el.classList.add(this.noAnimateClass);
-            });
-
-            // Merge slides back and calculate new position
-            this.slides = [...removedSlides.reverse(), ...this.slides];
-            this.pointer = removedSlides.length;
+        // Move to the last slide if there are no more slides at the beginning of the slider (prev action)
+        if (this.currentSlide <= 0) {
+            this.slider.classList.remove(this.animateClassName);
+            this.currentSlide = this.slides.length - 2 * this.numberOfVisibleSlides;
+            this._updateSliderPosition();
         }
-
-        // Move slides to proper direction
-        this._move(this.directions.left);
     }
 
     /**
-     * Update each slides position
-     * @param {int} direction
-     * @private
+     * Move slider to the next/previous slide.
+     * Positive value like 1,2 will move the slider to the next slide.
+     * Negative value like -1,-2 will move the slider to the previous slide.
+     * @param {number} currentSlideModifier
      */
-    _move(direction) {
-        this.slides.forEach((slide) => {
-            slide.x -= direction * 100;
-            slide.el.style.transform = `translate3d(${slide.x}%, 0, 0)`;
-            // If element has no animate class it should be moved to either end of the slider without animation
-            if (slide.el.classList.contains(this.noAnimateClass)) {
-                slide.el.offsetHeight;
-                slide.el.classList.remove(this.noAnimateClass);
-            }
-        });
+    move(currentSlideModifier) {
+        // Do not execute any action if the previous animation did not finish
+        if (this.isAnimating === true) {
+            return;
+        }
+        this.slider.classList.add(this.animateClassName);
+        this.currentSlide += currentSlideModifier;
+        this._updateSliderPosition();
+    }
+
+    /**
+     * Destroy the slider
+     */
+    destroy() {
+        // Remove classes and style attributes
+        this.slides.forEach(slide => slide.removeAttribute('style'));
+        this.slider.removeAttribute('style');
+        this.slider.classList.remove(this.animateClassName);
+        // Clean up variables
+        this.slides = [];
+        this.slider.removeEventListener('transitionstart', this.animationStartEvent);
+        this.slider.removeEventListener('transitionend', this.animationEndEvent);
+        this.slider = null;
     }
 }
