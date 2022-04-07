@@ -1,6 +1,6 @@
 # Changelog
 
-### 2.1.0 (unreleasd)
+### 3.0.0
 
 * HTML structure now should be created in the browser instead in the library code. Refer to the README file for the new
   setup.
