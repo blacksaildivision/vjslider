@@ -1,6 +1,6 @@
 {
   "name": "vjslider",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Super small and responsive vanilla js slider",
   "scripts": {
     "build": "webpack --mode production",
