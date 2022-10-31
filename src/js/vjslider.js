@@ -90,6 +90,6 @@ export default class VJSlider { // eslint-disable-line no-unused-vars
         const defaultOptions = {
             numberOfVisibleSlides: 1
         };
-        return Object.assign(defaultOptions, options);
+        return {...defaultOptions, ...options};
     }
 }

@@ -2,11 +2,12 @@
   "name": "vjslider",
   "version": "3.0.0",
   "description": "Super small and responsive vanilla js slider",
+  "type": "module",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack serve --mode development",
     "test": "npm run test:unit && npm run test:e2e",
-    "test:unit": "jest --config ./spec/unit-tests/jest.config.js ./spec/unit-tests",
+    "test:unit": "jest --config ./spec/unit-tests/jest.config.cjs ./spec/unit-tests",
     "test:e2e": "jest ./spec/e2e"
   },
   "repository": {
@@ -30,7 +31,6 @@
   "homepage": "https://github.com/blacksaildivision/vjslider#readme",
   "devDependencies": {
     "@babel/core": "^7.17.8",
-    "@babel/plugin-transform-object-assign": "^7.16.7",
     "@babel/preset-env": "^7.16.11",
     "autoprefixer": "^10.4.4",
     "babel-loader": "^8.2.4",
