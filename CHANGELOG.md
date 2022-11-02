@@ -1,5 +1,11 @@
 # Changelog
 
+### 3.1.0
+
+* Change old `[].slice.call(document.querySelectorAll)` syntax to modern `[...document.querySelectorAll]`.
+* Change `"type"` to `"module"` in package.json.
+* Update all dependencies to the latest versions.
+
 ### 3.0.0
 
 * HTML structure now should be created in the browser instead in the library code. Refer to the README file for the new

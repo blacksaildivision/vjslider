@@ -1,5 +1,4 @@
-module.exports = async () => {
-    return {
-        testEnvironment: 'jsdom'
-    };
+export default {
+    testEnvironment: 'jsdom',
+    transform: {}
 };

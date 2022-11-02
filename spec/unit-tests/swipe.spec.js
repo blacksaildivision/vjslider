@@ -1,4 +1,5 @@
 import Swipe from './../../src/js/swipe';
+import {jest} from '@jest/globals';
 
 describe('Swipe', () => {
     document.body.innerHTML = '<div class="element">Test</div>';
