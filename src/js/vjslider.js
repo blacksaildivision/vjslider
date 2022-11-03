@@ -1,7 +1,7 @@
-require('./../scss/vjslider.scss');
-import Swipe from './swipe';
-import Clones from './clones';
-import Slider from './slider';
+import './../scss/vjslider.scss';
+import Swipe from './swipe.js';
+import Clones from './clones.js';
+import Slider from './slider.js';
 
 export default class VJSlider { // eslint-disable-line no-unused-vars
 
@@ -13,7 +13,6 @@ export default class VJSlider { // eslint-disable-line no-unused-vars
     constructor(domElement, sliderOptions = {}) {
         this.el = domElement;
         this.sliderEl = this.el.querySelector('.vjslider__slider');
-        this.transitionEndCallback = null;
         this.init(sliderOptions);
     }
 
@@ -23,7 +22,7 @@ export default class VJSlider { // eslint-disable-line no-unused-vars
      */
     init(sliderOptions) {
         // Get all slides
-        this.slides = [].slice.call(this.sliderEl.querySelectorAll('.vjslider__slide'));
+        this.slides = [...this.sliderEl.querySelectorAll('.vjslider__slide')];
         if (this.slides.length === 0) {
             throw new DOMException('Slider does not contain any slides (.vjslider__slide)');
         }
