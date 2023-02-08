@@ -1,6 +1,6 @@
 {
   "name": "vjslider",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Super small and responsive vanilla js slider",
   "type": "module",
   "scripts": {
