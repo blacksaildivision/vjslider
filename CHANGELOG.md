@@ -1,5 +1,9 @@
 # Changelog
 
+### 3.1.1
+
+* Update all dependencies to the latest versions.
+
 ### 3.1.0
 
 * Change old `[].slice.call(document.querySelectorAll)` syntax to modern `[...document.querySelectorAll]`.
