@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.1.2
+
+* Use the new headless mode in Puppeteer.
+* Update all dependencies to the latest versions.
+
 ### 3.1.1
 
 * Update all dependencies to the latest versions.
