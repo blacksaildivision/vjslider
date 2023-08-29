@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer';
 describe('Multiple slides with clone', () => {
     let browser, page;
     beforeAll(async () => {
-        browser = await puppeteer.launch();
+        browser = await puppeteer.launch({headless: 'new'});
         page = await browser.newPage();
         await page.goto('http://localhost:8363/demo/multiple-slides-with-clone.html');
     });

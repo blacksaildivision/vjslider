@@ -5,7 +5,7 @@ describe('Multiple slides', () => {
     let slide1, slide2, slide3, slide4;
 
     beforeAll(async () => {
-        browser = await puppeteer.launch();
+        browser = await puppeteer.launch({headless: 'new'});
         page = await browser.newPage();
         await page.goto('http://localhost:8363/demo/multiple-slides.html');
     });
