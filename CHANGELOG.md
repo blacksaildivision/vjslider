@@ -1,5 +1,12 @@
 # Changelog
 
+### 3.1.3
+
+* Remove obsolete `{headless: new}` from e2e tests.
+* Rewrite `[...document.querySelectorAll].forEach` to `document.querySelectorAll.forEach`.
+* Migrate to ESLint 9 and fix new linter errors.
+* Update all dependencies to the latest versions.
+
 ### 3.1.2
 
 * Use the new headless mode in Puppeteer.

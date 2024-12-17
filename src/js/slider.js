@@ -99,13 +99,13 @@ export default class Slider {
         const hiddenSlides = this.slides.filter(x => visibleSlides.indexOf(x) === -1);
         visibleSlides.forEach((visibleSlide) => {
             visibleSlide.removeAttribute('aria-hidden');
-            [...visibleSlide.querySelectorAll(this.focusableElementsSelector)].forEach(focusableElement => {
+            visibleSlide.querySelectorAll(this.focusableElementsSelector).forEach(focusableElement => {
                 focusableElement.removeAttribute('tabindex');
             });
         });
         hiddenSlides.forEach((hiddenSlide) => {
             hiddenSlide.setAttribute('aria-hidden', 'true');
-            [...hiddenSlide.querySelectorAll(this.focusableElementsSelector)].forEach(focusableElement => {
+            hiddenSlide.querySelectorAll(this.focusableElementsSelector).forEach(focusableElement => {
                 focusableElement.tabIndex = -1;
             });
         });
@@ -119,7 +119,7 @@ export default class Slider {
         this.slides.forEach(slide => {
             slide.removeAttribute('style');
             slide.removeAttribute('aria-hidden');
-            [...slide.querySelectorAll(this.focusableElementsSelector)].forEach(focusableElement => {
+            slide.querySelectorAll(this.focusableElementsSelector).forEach(focusableElement => {
                 focusableElement.removeAttribute('tabindex');
             });
         });
