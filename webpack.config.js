@@ -47,7 +47,9 @@ export default {
         new MiniCssExtractPlugin({
             filename: 'vjslider.css'
         }),
-        new ESLintPlugin()
+        new ESLintPlugin({
+            configType: 'flat'
+        })
     ],
     devServer: {
         port: 8363,

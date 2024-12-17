@@ -108,7 +108,7 @@ export default class Swipe {
                         supported = true;
                     }
                 }));
-        } catch (err) {
+        } catch {
             supported = false;
         }
         return supported;

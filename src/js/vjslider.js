@@ -3,7 +3,7 @@ import Swipe from './swipe.js';
 import Clones from './clones.js';
 import Slider from './slider.js';
 
-export default class VJSlider { // eslint-disable-line no-unused-vars
+export default class VJSlider {
 
     /**
      * VJSlider constructor

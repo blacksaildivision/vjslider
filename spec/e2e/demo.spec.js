@@ -1,11 +1,16 @@
 import puppeteer from 'puppeteer';
+import {describe, beforeAll, afterAll, test, expect} from '@jest/globals';
+import {setTimeout} from 'node:timers/promises';
 
 describe('Demo page', () => {
+
+    const animationDuration = 400;
+
     let browser, page;
     let slide1, slide2, slide3;
 
     beforeAll(async () => {
-        browser = await puppeteer.launch({headless: 'new'});
+        browser = await puppeteer.launch();
         page = await browser.newPage();
         await page.goto('http://localhost:8363/demo');
     });
@@ -13,10 +18,6 @@ describe('Demo page', () => {
     afterAll(async () => {
         await page.close();
         await browser.close();
-    });
-
-    beforeAll(async () => {
-        await page.goto('http://localhost:8363/demo');
     });
 
     test('it should get handles to slides', async () => {
@@ -38,7 +39,7 @@ describe('Demo page', () => {
         expect(await slide3.isIntersectingViewport()).toBe(false);
         await Promise.all([
             page.click('[data-next]'),
-            page.waitForTimeout(400)
+            setTimeout(animationDuration)
         ]);
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(true);
@@ -48,7 +49,7 @@ describe('Demo page', () => {
     test('sliding forward again', async () => {
         await Promise.all([
             page.click('[data-next]'),
-            page.waitForTimeout(400)
+            setTimeout(animationDuration)
         ]);
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(false);
@@ -58,7 +59,7 @@ describe('Demo page', () => {
     test('sliding backward', async () => {
         await Promise.all([
             page.click('[data-prev]'),
-            page.waitForTimeout(400)
+            setTimeout(animationDuration)
         ]);
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(true);
@@ -80,7 +81,7 @@ describe('Demo page', () => {
         await page.mouse.down();
         await page.mouse.move(100, 300);
         await page.mouse.up();
-        await page.waitForTimeout(400);
+        await setTimeout(animationDuration);
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(false);
         expect(await slide3.isIntersectingViewport()).toBe(true);
@@ -101,7 +102,7 @@ describe('Demo page', () => {
         await page.mouse.down();
         await page.mouse.move(500, 300);
         await page.mouse.up();
-        await page.waitForTimeout(400);
+        await setTimeout(animationDuration);
         expect(await slide1.isIntersectingViewport()).toBe(false);
         expect(await slide2.isIntersectingViewport()).toBe(true);
         expect(await slide3.isIntersectingViewport()).toBe(false);
@@ -110,7 +111,7 @@ describe('Demo page', () => {
     test('reloading', async () => {
         await Promise.all([
             page.click('[data-reload]'),
-            page.waitForTimeout(400)
+            setTimeout(animationDuration)
         ]);
         expect(await page.$$eval('.vjslider__slide', elements => elements.length)).toBe(10);
         expect(await slide1.isIntersectingViewport()).toBe(true);
